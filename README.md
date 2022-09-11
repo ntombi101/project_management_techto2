@@ -1,15 +1,14 @@
-# 2021-009-project
-Name of Web Application: Study Group Coordinator
-Link: http://studycoordinator2.azurewebsites.net/
+# project_management_techto
+This repo contains the work and source code of a project management application. 
+# project_management_techto_2022
 
-Group Members:
-Thokozani Msezane 1033379
-Oratile Marope 1057107
-Florance Thobejane 1356300
-Nthabiseng Mapheelle 1604145
-Ammaarah Akhalwaya 1417743
+Name of Web Application: Project Management Application.
 
-Login Credentials Mssql
+Group Name: Techto2022
 
-username: eiegroup9sql
-password: CNSP@SS6843
+Group Members: Charmaine Mahlase (219125359), Limbani Bongani Shaka (201800825), Nollen Musika (220012023)
+
+Website Link:
+
+
+This repo contains the work and source code of a project management application developed for BCX company.
