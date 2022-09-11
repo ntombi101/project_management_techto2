@@ -1,0 +1,26 @@
+<html>
+
+<head>
+  <script src="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.css" />
+  <link rel="stylesheet" href="/cdn/css/style.css">
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/cdn/scripts/user/map.js"></script>
+  <title>Map-Page</title>
+</head>
+
+<body style="border: 0; margin: 0;">
+  <div id="map"></div>
+
+  <div class="formBlock">
+    <form id="location" action="/user/api/destination" method="post">
+      <input type="text" name="start" class="input" id="start" placeholder="Your Meeting Location" /><br><br>
+    
+      <div>
+        <button type="submit" id="submit9">Get Location </button>
+      </div>
+    </form>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<title>Home Page</title>
+
+ <meta charset="utf-8" />
+ <link rel= "stylesheet" href="/cdn/css/style.css">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+ <script defer src="/cdn/scripts/user/bundle_dashBoard.js"></script>
+ <script defer src="/cdn/scripts/user/groups.js"></script> 
+
+
+</head>
+<body1>
+
+<div class="header">
+ Dashboard: <br>
+    <span id="welcomeMessage" contenteditable="false"> </span>
+</div>
+
+<div class="row2">
+  <div class="column2 side1">
+    <h2>Navigation</h2>
+  <a href="/user/homepage" class="active">Home</a>
+  <a href="/user/Meetings">View Meetings</a>
+  <a href="/groups/group">Projects</a>
+  <a href="/groups/createGroup">Create Project</a>
+  <a href="/groups/searchGroups">Search Project</a>
+  <a href="/groups/manageCourses">Add Task</a>
+  <a href="/user/logout">Logout</a>
+  </div>
+  
+  <div class="column2 middle">
+    <h2>Projects</h2>
+    <div class="center">
+    <div id="grpdiv1" class="icons">
+  
+    </div>
+    <div id="grpdiv2" class="icons">
+ 
+    </div>
+</div>
+  </div>
+  
+  <div class="column2 side2">
+    
+
+        <% if(accepted.length) { %>
+          <% accepted.forEach(function(meeting) { %>
+            <% if(name==meeting.userName_ID) { %>
+              <% covid.forEach(function(status) { %>
+                <% if(status.userName==meeting.nameOfPersonRequesting) { %>
+                  <li>
+                    You had a <%= meeting.TypeOfMeeting %> meeting with <%= meeting.nameOfPersonRequesting %>
+                        who failed their covid screening on <%= meeting.date %>, you might want to isolate or get tested
+                          <br>
+                  </li>
+                  <div id="Dismissdiv" class="Dismiss">
+                    <a class="active" href="/user/dismissMeeting/<%=meeting.ID%>">Dismiss</a>
+                  </div>
+                  <% } %>
+                    <% }); %>
+                      <% } %>
+                        <% if(name==meeting.nameOfPersonRequesting) { %>
+                          <% covid.forEach(function(status) { %>
+                            <% if(status.userName==meeting.userName_ID) { %>
+                              <li>
+                                You had a <%= meeting.TypeOfMeeting %> meeting with <%= meeting.nameOfPersonRequesting
+                                    %>
+                                    who failed his covid screening on <%= meeting.date %>, you might want to isolate or
+                                      get tested
+                                      <br>
+                              </li>
+                              <div id="Dismissdiv" class="Dismiss">
+                                <a class="active" href="/user/dismissMeeting/<%=meeting.ID%>">Dismiss</a>
+                              </div>
+                              <% } %>
+                                <% }); %>
+                                  <% } %>
+                                    <% }); %>
+                                      <% } %>
+  </div>
+</div>
+  
+</body1>
+</html>

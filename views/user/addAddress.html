@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <title>Adress information</title>
+   <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+ <link rel= "stylesheet" href="/cdn/css/style.css">
+</head>
+
+<!-- Added email, user name and password to the form and removed the address field (we can have a profile section on the user Dashboard where they complete all the necessary stuff) -->
+
+<body style="background-color: powderblue;">
+  
+	<div class="topnav4">
+		<a href='/user/homepage'>Home</a>
+    <a href= "/groups/group">Groups</a>
+	</div>
+
+<div id="addCirc">
+  <h3>Enter Residential Address</h3>
+  <form id="frm3" action="/user/api/address" method="post">
+
+    <label for="streetAddress">Adress: </label><br>
+    <input type="text" id="user_address" required name="address" placeholder="Residential address"><br>
+
+    <label for="city">City: </label><br>
+    <input type="text" id="user_city" required name="city" placeholder="City"><br>
+  
+    <label for="postalCode">Postal code: </label><br>
+    <input type="text" id="user_postalCode" required name="postalCode" placeholder="postal code"><br>
+    <input type="submit" value="submit">
+   
+  </form>
+</div>
+</body>
+</html>

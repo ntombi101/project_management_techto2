@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+   <title>Sign-in Page</title>
+ <meta charset="utf-8" />
+ <link rel= "stylesheet" href="/cdn/css/style.css">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<% if(errormessage && errormessage.length > 0) { %>
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+     <strong>Warning!</strong> <%=errormessage %> 
+     <button type="button" class="close" data-dismiss="alert">&times;</button>
+  </div>
+<% } %>
+
+<body style="background-image: url('/cdn/images/signin-up.jpg');">
+
+<div class="signin-up">
+ <h3>Sign-in Page</h3>
+ 
+ <img src="/cdn/images/bluebook.jpg" alt="blue book">
+ 
+ <form id="frm1" action ="/api/login" method="POST">
+    <label for="user">User name: </label><br>
+    <input type="text" id="user" required name="Username" placeholder="User name"><br>
+    
+    <label for="password">Password: </label><br>
+    <input type="password" id="password" required name="Password" placeholder="Password" ><br><br>
+    <input id="sub" type="submit" value="submit">
+ </form>
+ 
+    <a href="/generateCode">Forgot Password ?</a>
+
+
+</div>
+
+</body>
+
+
+</html>

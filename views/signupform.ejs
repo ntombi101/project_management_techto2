@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <title>Sign-up User Details</title>
+   <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+ <link rel= "stylesheet" href="/cdn/css/style.css">
+ <script defer src="/cdn/scripts/user/pass_bundle.js"></script>
+</head>
+
+<!-- Added email, user name and password to the form and removed the address field (we can have a profile section on the user Dashboard where they complete all the necessary stuff) -->
+
+<body style="background-image: url('/cdn/images/signin-up.jpg');">
+
+ <div class="signup">
+    <h3>Sign-up Page</h3>
+ 
+    <img src="/cdn/images/bluebook.jpg" alt="blue book">
+    <form id ="frm2" action="/api/register" method="post" >
+
+ 
+
+      <label for="email">Email Address: </label><br>
+      <input type="text" id="email" required name="email" placeholder="email address"><br>
+
+      <label for="name">User Name: </label><br>
+      <input type="text" id="usrname" required name="userName" placeholder="User Name"><br>
+  
+      <label for="name">Name: </label><br>
+      <input type="text" id="name" required name="Name" placeholder="Name"><br>
+
+      <label for="surname">Surname: </label><br>
+      <input type="text" id="surname" required name="Surname" placeholder="Surname"><br>
+
+      <label for="name">Password: </label><br>
+      <input type="password" id="pass" required name="password" placeholder="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+      title="Password must contain at lease 1 uppercase and lowercase letter and 1 number. Must be 8 characters."><br>
+
+      <label for="name">Confirm Password: </label><br>
+      <input type ="password" id="cpass" required name="confirmPassword" placeholder="Confirm Password"><br>
+
+      <label for="student_number">Student Number: </label><br>
+      <input type="text" id="student_number" required name="studentNumber" placeholder="Student Number"><br><br>
+      <input id="sub" type="submit" value="submit">
+ 
+    </form>
+  </div>
+</body>
+</html>

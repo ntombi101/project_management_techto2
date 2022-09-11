@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Study Coordinator</title>
+    <meta charset="utf-8"/>
+    
+    <link rel= "stylesheet" href="/cdn/css/style.css">
+    <script defer src="/cdn/scripts/user/bundle_dashBoard.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+    <div id = "mydiv1" class="topnav">
+        <a class="active" href="/user/homepage">Home</a>
+     </div> 
+   
+    <div class="container">                                        
+    <div class="dropdown">
+        <button class="btn-btn-default-dropdown-toggle" type="button" data-toggle="dropdown">Menu
+        <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+        <li><a tabindex="-1" href="/user/logout">Logout</a></li>  
+        <li><a tabindex="-1" href= "/groups/group">Projects</a></li>
+        <li><a tabindex="-1" href= "/user/Meetings">View Meetings</a></li>
+        <li><a tabindex="-1" href= "/groups/createGroup">Create Project</a></li>
+        <li><a tabindex="-1" href="/groups/searchGroups">Search Project</a></li>
+        <li><a tabindex="-1" href="/groups/manageCourses">Add Task</a></li>
+
+
+        </li>
+        </ul>
+    </div>
+    </div>
+
+    <h2>
+        <span id= "welcomeMessage" contenteditable="true"> </span>
+    </h2>
+
+</body>
+</html>

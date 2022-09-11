@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <title>Covid-19 Screening Form</title>
+ <meta charset="utf-8" />
+ <link rel= "stylesheet" href="/cdn/css/style.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+
+</head>
+
+<% if(errormessage && errormessage.length > 0) { %>
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+     <strong>Warning!</strong> <%=errormessage %> 
+     <button type="button" class="close" data-dismiss="alert">&times;</button>
+  </div>
+<% } %>
+
+<div class="contain">
+  <div class="lines2">
+    <img src="/cdn/images/lines.jpg" alt="lines">
+  </div>
+  
+  <div class="topnav2">
+    <a href='/user/homepage'>Home</a>
+  </div>
+
+  
+</div>
+
+
+<body style="overflow-y: scroll; overflow-x: hidden; height: auto;">
+
+  <div class="lines1">
+    <img src="/cdn/images/lines.jpg" alt="lines">
+  </div>
+  
+
+  <h3>Face to Face meeting</h3>
+  <h3>COVID-19 screening form</h3>
+
+  <form id="screenForm" action="/user/api/screening" method="post">
+
+    <label for="Throat">Do you have a sore throat? </label><br>
+    <input type="radio" name="soreThroat" value="yes" /> Yes
+    <input type="radio" name="soreThroat" value="no" /> No<br><br>
+
+    <label for="fever">Do you have a high fever? </label><br>
+    <input type="radio" name="highFever" value="yes" /> Yes
+    <input type="radio" name="highFever" value="no" /> No<br><br>
+
+    <label for="breath">Do you experience shortness of breath? </label><br>
+    <input type="radio" name="shortBreath" value="yes" /> Yes
+    <input type="radio" name="shortBreath" value="no" /> No<br><br>
+    
+    <label for="taste">Do you experience a loss of taste/smell? </label><br>
+    <input type="radio" name="tasteLoss" value="yes" /> Yes
+    <input type="radio" name="tasteLoss" value="no" /> No<br><br>
+
+    <label for="nausea">Do you experience nausea/vomiting? </label><br>
+    <input type="radio" name="vomiting" value="yes" /> Yes
+    <input type="radio" name="vomiting" value="no" /> No<br><br>
+
+    <label for="pain">Do you experience body pain? </label><br>
+    <input type="radio" name="bodyPain" value="yes" /> Yes
+    <input type="radio" name="bodyPain" value="no" /> No<br><br>
+
+    <label for="fatigue">Do you experience fatigue/physical weakness? </label><br>
+    <input type="radio" name="weakness" value="yes" /> Yes
+    <input type="radio" name="weakness" value="no" /> No<br><br>
+
+    <label for="tested">Have you tested positive for COVID-19 in the past 10 days? </label><br>
+    <input type="radio" name="testedPositive" value="yes" /> Yes
+    <input type="radio" name="testedPositive" value="no" /> No<br><br>
+
+    <label for="contact">Have you come into contact with a person who has tested positive for COVID-19 in the past 10 days? </label><br>
+    <input type="radio" name="contactPositive" value="yes" /> Yes
+    <input type="radio" name="contactPositive" value="no" /> No<br><br>
+
+    <input type="submit" value="submit">
+   
+  </form>
+
+
+
+</body>
+
+</html>

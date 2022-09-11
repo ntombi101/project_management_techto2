@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Create-Groups Page</title>
+    <meta charset="utf-8" />
+    <link rel= "stylesheet" href="/cdn/css/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body style="background-color: powderblue;">
+	<div class="topnav4">
+		<a href='/user/homepage'>Home</a>
+    <a href= "/groups/group">Groups</a>
+	</div>
+
+<div id="addrec">
+  <h3 >Create Your Group Here</h3>
+
+    <form id="frm3" action="/groups/api/createGroup" method="post">
+    
+            <label for="groupName">Group Name</label>
+            <input type="text" required id="groupName" name="groupName" placeholder="Enter Group Name">
+            <input  type="submit" value="Create Group">
+    </form>
+</div>
+</body><br>
+
+<% if(errormessage && errormessage.length > 0) { %>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+       <strong>Warning!</strong> <%=errormessage %> 
+       <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+  <% } %>
+  
+</html> 
