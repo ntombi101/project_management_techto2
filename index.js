@@ -1,5 +1,6 @@
 'use strict'
 
+//Dependencies
 const express = require('express')
 const http = require('http')
 const session = require('express-session')
@@ -9,11 +10,12 @@ const flash = require('connect-flash')
 const db = require('./database/db')
 const cors = require('cors')
 const Autolinker = require('autolinker')
-
 const app = express()
 const server = http.createServer(app)
 app.use(cookieParser())
 const io = socketio(server)
+
+//Linked files/modules 
 const format = require('./public/scripts/user/messages.js')
 const active = require('./public/scripts/user/sessions.js')
 
@@ -126,6 +128,9 @@ io.on('connection', socket => {
         console.log(err)
       })
 
+
+
+    //Log activities
     db.pools
       // Run query
       .then((pool) => {
