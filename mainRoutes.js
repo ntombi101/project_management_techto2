@@ -1,5 +1,6 @@
 'use strict'
 
+//Dependencies
 const db = require('./database/db')
 const path = require('path')
 const express = require('express')
@@ -9,11 +10,11 @@ const Gcode = Math.random().toString(36).replace('0.', '')
 const session = require('./public/scripts/user/sessions.js')
 const send = require('./public/scripts/user/emailNotifications.js')
 
-const student = {
-  username: 'Admin',
-  name: 'Admin',
-  surname: 'Admin',
-  studentNumber: 'Admin'
+const employee = {
+  employeeNumber: 'Admin',
+  firstname: 'Admin',
+  lastname: 'Admin',
+  occupation: 'Admin'
 }
 
 // Redirect webpages which check if a user is authenticated
@@ -50,61 +51,42 @@ mainRouter.get('/generateCode', function (req, res) {
   res.sendFile(path.join(__dirname, 'views', 'user', 'generateCode.html'))
 })
 
-mainRouter.get('/database', function (req, res) {
-  // make a query to the database
-  db.pools
-  // Run query
-    .then((pool) => {
-      return pool.request()
 
-        .query('SELECT * FROM meetingRequests')
-    })
-    // send back the result
-    .then(result => {
-      res.send(result)
-    })
-    // If there's an error, return that with some description
-    .catch(err => {
-      res.send({
-        Error: err
-      })
-    })
-})
-
+//logging in a user/employee (Must be from employees database)
 mainRouter.post('/api/login', redirectHome, function (req, res) {
-  const username = req.body.Username
+  const employeenumber = req.body.employeeNumber
   const password = req.body.Password
 
   db.pools
     .then((pool) => {
       return pool.request()
-        .query('SELECT * FROM appUser')
+        .query('SELECT * FROM employees')
     })
 
     .then((result) => {
       const index = result.recordset.findIndex(function (elem) {
-        return elem.userName === username
+        return elem.employeeNumber === employeenumber
       })
       if (index >= 0) {
         // Load hash from database
         if (bcrypt.compareSync(password, result.recordset[index].password) === true) {
-          student.username = username
-          student.name = result.recordset[index].firstName
-          student.surname = result.recordset[index].lastName
-          student.studentNumber = result.recordset[index].studentNumber
+          employee.employeeNumber = employeenumber
+          employee.firstname = result.recordset[index].firstName
+          employee.lastname = result.recordset[index].lastName
+          employee.occupation = result.recordset[index].occupation
 
           req.session.loggedIn = true
           console.log(req.session.loggedIn)
-          session.setUser(username)
+          session.setUser(employeenumber)
           console.log(`logged in user is ${session.getUser()}`)
 
-          // store the user name as a cookie
-          const userNameCookie_ = `${username}`
-          const userWelcomeMessage_ = `welcome ${username}`
+          // store the employee name as a cookie
+          const userNameCookie_ = `${employee.firstname}`
+          const userWelcomeMessage_ = `welcome ${employee.firstname}`
           console.log(`new greeting msg:  ${userNameCookie_}`)
           res.cookie('username', `${userNameCookie_}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/homepage')
           res.cookie('welcomemessage', `${userWelcomeMessage_}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/homepage')
-          res.cookie('user', `${student.username}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/viewMeetings')
+          res.cookie('user', `${employee.firstname}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/viewMeetings')
           res.redirect(req.baseUrl + '/user/homepage')
         } else {
           req.flash('errormessage', 'Incorrect Username or Password')
@@ -119,23 +101,23 @@ mainRouter.post('/api/login', redirectHome, function (req, res) {
 })
 
 mainRouter.post('/api/generateCode', (req, res) => {
-  console.log('Verifying user email')
-  const username = req.body.userName
+  const employeenumber = req.body.employeeNumber
   // Make a query to the database
   db.pools
     // Run query
     .then((pool) => {
       return pool.request()
         // perfoming a query
-        .query('SELECT * FROM appUser')
+        .query('SELECT * FROM employees')
     })
     // Processing the response
     .then(result => {
       const index = result.recordset.findIndex(function (elem) {
-        return elem.userName === username
+        return elem.employeeNumber === employeenumber
       })
       if (index >= 0) {
-        send.resetPassword(result.recordset[index].email, result.recordset[index].userName, Gcode)
+        console.log('Verifying user email: ' , result.recordset[index].email)
+        send.resetPassword(result.recordset[index].email, result.recordset[index].firstName, Gcode)
         res.redirect(req.baseUrl + '/resetPassword')
       } else {
         res.redirect(req.baseUrl + '/generateCode')
@@ -145,8 +127,8 @@ mainRouter.post('/api/generateCode', (req, res) => {
 
 mainRouter.post('/api/resetPassword', (req, res) => {
   // Make a query to the database
-  const username = req.body.userName
-  const password = req.body.password
+  const employeenumber = req.body.employeeNumber
+  const password = req.body.Password
 
   db.pools
     // Run query
@@ -155,11 +137,11 @@ mainRouter.post('/api/resetPassword', (req, res) => {
       const dbrequest = pool.request()
 
       dbrequest.input('userp', `${bcrypt.hashSync(password, salt)}`)
-      dbrequest.input('nam', `${username}`)
+      dbrequest.input('nam', `${employeenumber}`)
       // perfoming a query
       if (Gcode === req.body.gcode) {
         return dbrequest
-          .query('UPDATE appUser SET password = @userp WHERE userName = @nam')
+          .query('UPDATE employees SET password = @userp WHERE employeeNumber = @nam')
       } else {
         res.send('codes do not match, please check code')
       }
@@ -170,14 +152,17 @@ mainRouter.post('/api/resetPassword', (req, res) => {
     })
 })
 
+
+//Register an employee
 mainRouter.post('/api/register', redirectHome, function (req, res) {
-  console.log('registering in the following user:', req.body.Name)
-  const studentObject = {
-    firstName: req.body.Name,
-    lastName: req.body.Surname,
-    emailAddress: req.body.email,
-    userName: req.body.userName,
-    studNumber: req.body.studentNumber,
+  console.log('registering in the following user:', req.body.lastName)
+  const employeeObject = {
+    employeeNumber: req.body.employeeNumber,
+    lastName: req.body.lastName,
+    email: req.body.email,
+    firstName: req.body.firtsName,
+    department: req.body.department,
+    occupation: req.body.occupation,
     Password: req.body.password
   }
 
@@ -185,12 +170,12 @@ mainRouter.post('/api/register', redirectHome, function (req, res) {
   db.pools
     .then((pool) => {
       return pool.request()
-        .query('SELECT * FROM appUser')
+        .query('SELECT * FROM employees')
     })
 
     .then(result => {
       const index = result.recordset.findIndex(function (elem) {
-        return elem.email === studentObject.emailAddress
+        return elem.email === employeeObject.email
       })
       if (index >= 0) {
         req.flash('errormessage', 'Already registered')
@@ -203,18 +188,17 @@ mainRouter.post('/api/register', redirectHome, function (req, res) {
       })
     })
 
-  // Hash Password
+  // Hash Password before storing into database
   const salt = bcrypt.genSaltSync(10)
-  const hash = bcrypt.hashSync(studentObject.Password, salt)
-  studentObject.Password = hash
+  const hash = bcrypt.hashSync(employeeObject.Password, salt)
+  employeeObject.Password = hash
 
   // make a query to the database
   db.pools
   // Run query
     .then((pool) => {
       return pool.request()
-
-        .query(`INSERT INTO appUser(userName, email, firstName, lastName, studentNumber, CovidFlag, Adress, City, PostalCode, password) VALUES ('${studentObject.userName}', '${studentObject.emailAddress}', '${studentObject.firstName}', '${studentObject.lastName}', '${studentObject.studNumber}', NULL, NULL, NULL, NULL, '${studentObject.Password}')`)
+        .query(`INSERT INTO employees(employeeNumber, email, firstName, lastName, department, password) VALUES ('${employeeObject.employeeNumber}', '${employeeObject.email}', '${employeeObject.firstName}', '${employeeObject.lastName}', '${employeeObject.department}', '${employeeObject.Password}');`)
     })
     // send back the result
     .then(_result => {

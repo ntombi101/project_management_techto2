@@ -9,8 +9,8 @@ module.exports = {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: 'eiestudygroup9@gmail.com',
-        pass: process.env.db_password
+        user: 'techtoprojectmanagement@gmail.com',
+        pass: 'kcdiordljsjqfulx'
       }
     })
 
@@ -23,8 +23,8 @@ module.exports = {
                   <h2>Please use the following Code <br/>
                   to reset your password,<br/>
                   Code: ${Gcode}<br/><br/><br/></center> 
-                  EIE Group 9<br/>
-                  Group 9 PTY LTD</p></h2>`
+                  Project Management System <br/>
+                  TechtoIT Solutions PTY LTD</p></h2>`
     }
 
     transporter.sendMail(mailOptions, (err, data) => {
@@ -41,8 +41,8 @@ module.exports = {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: 'eiestudygroup9@gmail.com',
-        pass: process.env.db_password
+        user: 'techtoprojectmanagement@gmail.com',
+        pass: 'kcdiordljsjqfulx'
       }
     })
 
@@ -75,8 +75,8 @@ module.exports = {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: 'eiestudygroup9@gmail.com',
-        pass: process.env.db_password
+        user: 'techtoprojectmanagement@gmail.com',
+        pass: 'kcdiordljsjqfulx'
       }
     })
 
@@ -110,8 +110,8 @@ module.exports = {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: 'eiestudygroup9@gmail.com',
-        pass: process.env.db_password
+        user: 'techtoprojectmanagement@gmail.com',
+        pass: 'kcdiordljsjqfulx'
       }
     })
 
@@ -145,8 +145,8 @@ module.exports = {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: 'eiestudygroup9@gmail.com',
-        pass: process.env.db_password
+        user: 'techtoprojectmanagement@gmail.com',
+        pass: 'kcdiordljsjqfulx'
       }
     })
 
@@ -180,8 +180,8 @@ module.exports = {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: 'eiestudygroup9@gmail.com',
-        pass: process.env.db_password
+        user: 'techtoprojectmanagement@gmail.com',
+        pass: 'kcdiordljsjqfulx'
       }
     })
 
@@ -214,8 +214,8 @@ module.exports = {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: 'eiestudygroup9@gmail.com',
-        pass: process.env.db_password
+        user: 'techtoprojectmanagement@gmail.com',
+        pass: 'kcdiordljsjqfulx'
       }
     })
 

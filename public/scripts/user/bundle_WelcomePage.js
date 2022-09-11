@@ -50,9 +50,8 @@ function setBackground () {
 }
 setBackground()
 
-// manipulating DOM Elements
+// manipulating DOM Elements of index.html
 const time_ = document.getElementById('time')
-
 const functions = require('./Functions')
 
 // This function is called within itself to update the time every second

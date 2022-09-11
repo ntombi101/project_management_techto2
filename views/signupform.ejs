@@ -18,18 +18,23 @@
     <form id ="frm2" action="/api/register" method="post" >
 
  
-
+      <label for="name">Employee Number: </label><br>
+      <input type="text" id="employeeNumber" required name="employeeNumber" placeholder="employee number"><br>
+      
       <label for="email">Email Address: </label><br>
       <input type="text" id="email" required name="email" placeholder="email address"><br>
-
-      <label for="name">User Name: </label><br>
-      <input type="text" id="usrname" required name="userName" placeholder="User Name"><br>
   
-      <label for="name">Name: </label><br>
-      <input type="text" id="name" required name="Name" placeholder="Name"><br>
+      <label for="name">First Name: </label><br>
+      <input type="text" id="firtsName" required name="firtsName" placeholder="First Name"><br>
 
-      <label for="surname">Surname: </label><br>
-      <input type="text" id="surname" required name="Surname" placeholder="Surname"><br>
+      <label for="surname">Last Name: </label><br>
+      <input type="text" id="lastName" required name="lastName" placeholder="Last Name"><br>
+
+      <label for="surname">Department: </label><br>
+      <input type="text" id="department" required name="department" placeholder="Finance, IT.."><br>
+
+      <label for="surname">Occupation: </label><br>
+      <input type="text" id="occupation" required name="occupation" placeholder="project manager, employee.."><br>
 
       <label for="name">Password: </label><br>
       <input type="password" id="pass" required name="password" placeholder="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
@@ -37,9 +42,7 @@
 
       <label for="name">Confirm Password: </label><br>
       <input type ="password" id="cpass" required name="confirmPassword" placeholder="Confirm Password"><br>
-
-      <label for="student_number">Student Number: </label><br>
-      <input type="text" id="student_number" required name="studentNumber" placeholder="Student Number"><br><br>
+      
       <input id="sub" type="submit" value="submit">
  
     </form>
