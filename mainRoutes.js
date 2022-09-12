@@ -198,7 +198,7 @@ mainRouter.post('/api/register', redirectHome, function (req, res) {
   // Run query
     .then((pool) => {
       return pool.request()
-        .query(`INSERT INTO employees(employeeNumber, email, firstName, lastName, department, password) VALUES ('${employeeObject.employeeNumber}', '${employeeObject.email}', '${employeeObject.firstName}', '${employeeObject.lastName}', '${employeeObject.department}', '${employeeObject.Password}');`)
+        .query(`INSERT INTO employees(employeeNumber, email, firstName, lastName, department, password, occupation) VALUES ('${employeeObject.employeeNumber}', '${employeeObject.email}', '${employeeObject.firstName}', '${employeeObject.lastName}', '${employeeObject.department}', '${employeeObject.Password}', '${employeeObject.occupation}');`)
     })
     // send back the result
     .then(_result => {
