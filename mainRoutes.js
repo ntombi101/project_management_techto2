@@ -89,7 +89,7 @@ mainRouter.post('/api/login', redirectHome, function (req, res) {
           res.cookie('user', `${employee.firstname}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/viewMeetings')
           res.redirect(req.baseUrl + '/user/homepage')
         } else {
-          req.flash('errormessage', 'Incorrect Username or Password')
+          req.flash('errormessage', 'Incorrect Employee Number or Password')
           res.redirect(req.baseUrl + '/login')
         }
       }
