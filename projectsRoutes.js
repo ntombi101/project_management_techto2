@@ -79,6 +79,13 @@ router.post('/api/createProject', redirectLogIn, function (req, res) {
   const end_month = String(endDate.getMonth()).padStart(2, '0')
   const end_year = String(endDate.getFullYear())
 
+  //Capture date the project was created
+  // had to create these global variables for logging purposes
+  const today = new Date()
+  const created_day = String(today.getDate()).padStart(2, '0')
+  const created_month = String(today.getMonth() + 1).padStart(2, '0') // January is 0!
+  const created_year = today.getFullYear()
+
   
   // make a query to create the new project.
   db.pools
@@ -94,11 +101,11 @@ router.post('/api/createProject', redirectLogIn, function (req, res) {
       } else {
         // store the created project info into cookies:
         
-        /*res.cookie('admin', `${userName}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/studygroupTemp')
-        res.cookie('newGroupName', `${groupName}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/studygroupTemp')
-        res.cookie('dayGroupCreated', `${day}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/studygroupTemp')
-        res.cookie('monthGroupCreated', `${month}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/studygroupTemp')
-        res.cookie('yearGroupCreated', `${year}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/studygroupTemp')*/
+        res.cookie('admin', `${userName}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/projectHomeTemplate')
+        res.cookie('newGroupName', `${projectName}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/projectHomeTemplate')
+        res.cookie('dayGroupCreated', `${created_day}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/projectHomeTemplate')
+        res.cookie('monthGroupCreated', `${created_month}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/projectHomeTemplate')
+        res.cookie('yearGroupCreated', `${created_year}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/projectHomeTemplate')
 
         // insert this project into uniqueProjects table
         db.pools
