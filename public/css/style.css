@@ -889,7 +889,7 @@ body1 {
 /*---------------------------------------------------------- Create Group -------------------------------------------------- */
 
 #addrec{
-  position:absolute;
+  position:relative;
   background-color: white;
   width: 600px;
   height: 300px;

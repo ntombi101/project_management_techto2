@@ -37,8 +37,8 @@ const redirectLogIn = (req, res, next) => {
   }
 }
 
-router.get('/CreatedGroup', redirectLogIn, function (_req, res) {
-  res.render('studygroupTemp', { errormessage: _req.flash('errormessage') })
+router.get('/CreatedProject', redirectLogIn, function (_req, res) {
+  res.render('projectHomeTemplate', { errormessage: _req.flash('errormessage') })
 })
 
 router.get('/FaceToFace', redirectLogIn, function (req, res) {
@@ -171,7 +171,7 @@ router.get('/homepage', redirectLogIn, function (req, res) {
         .then((pool) => {
           return pool.request()
           // perfoming a query
-            .query(`SELECT * from appUser WHERE CovidFlag = '${covidStatus}'`)
+            .query(`SELECT * from appUsers WHERE CovidFlag = '${covidStatus}'`)
         })
       // Processing the response
         .then(result2 => {
@@ -468,7 +468,7 @@ router.post('/api/screening', redirectLogIn, function (req, res) {
   // Run query
     .then((pool) => {
       return pool.request()
-        .query(`UPDATE appUser SET CovidFlag = '${covidStatus}'
+        .query(`UPDATE appUsers SET CovidFlag = '${covidStatus}'
                 WHERE userName = '${userName}'`)
     })
     // send back the result
@@ -505,7 +505,7 @@ router.post('/api/address', redirectLogIn, function (req, res) {
   // Run query
     .then((pool) => {
       return pool.request()
-        .query(`UPDATE appUser SET Adress = '${AddressObject.address}', City = '${AddressObject.city}', PostalCode = '${AddressObject.postalCode}'
+        .query(`UPDATE appUsers SET Adress = '${AddressObject.address}', City = '${AddressObject.city}', PostalCode = '${AddressObject.postalCode}'
        WHERE userName = '${userName}'`)
     })
     // send back the result
@@ -651,7 +651,7 @@ router.post('/api/ArrivedNotifications', redirectLogIn, function (req, res) {
         db.pools
           .then((pool) => {
             return pool.request()
-              .query(`SELECT m.userName_ID, m.groupName_ID, m.nameOfPersonRequesting, m.TypeOfMeeting, m.date, m.time, m.meetingStatus, appUser.email FROM meetingrequests AS m JOIN appUser ON m.userName_ID = appUser.userName WHERE groupName_ID = '${groupName_}'`)
+              .query(`SELECT m.userName_ID, m.groupName_ID, m.nameOfPersonRequesting, m.TypeOfMeeting, m.date, m.time, m.meetingStatus, appUsers.email FROM meetingrequests AS m JOIN appUser ON m.userName_ID = appUsers.userName WHERE groupName_ID = '${groupName_}'`)
           })
         // send back the result
           .then(_result => {

@@ -42,9 +42,10 @@ const MemoryStore = require('memorystore')(session)
 const bodyParser = require('body-parser')
 
 // loading our routers
+const projectsRouter = require('./projectsRoutes')
 const mainRouter = require('./mainRoutes')
 const userRouter = require('./userRoutes')
-const groupsRouter = require('./groupsRoutes')
+
 
 // tell Express to use bosyParser for JSON and URL encoded from bodies
 app.use(bodyParser.json())
@@ -83,7 +84,7 @@ app.use(flash())
 // mounting our routers
 app.use(mainRouter)
 app.use('/user', userRouter.router)
-app.use('/groups', groupsRouter.router)
+app.use('/projects', projectsRouter.router)
 app.use('/cdn', express.static('public')) /* This will mount your public directory to '/cdn'.
 i.e. your scripts folder will be at /cdn/scripts */
 

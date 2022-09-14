@@ -87,6 +87,7 @@ mainRouter.post('/api/login', redirectHome, function (req, res) {
           res.cookie('username', `${userNameCookie_}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/homepage')
           res.cookie('welcomemessage', `${userWelcomeMessage_}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/homepage')
           res.cookie('user', `${employee.firstname}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/viewMeetings')
+          res.cookie('employeeNumber', `${employee.employeeNumber}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/viewMeetings')
           res.redirect(req.baseUrl + '/user/homepage')
         } else {
           req.flash('errormessage', 'Incorrect Employee Number or Password')
