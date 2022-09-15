@@ -1,6 +1,6 @@
 'use strict'
 
-fetch('/groups/api/grouplist')
+fetch('/projects/api/projectlist')
   .then(function (response) {
     if (response.ok) return response.json()
     else { throw new Error('Failed to load database result: response code invalid!') }
@@ -16,14 +16,14 @@ fetch('/groups/api/grouplist')
       const form = document.createElement('form')
       const myInput = document.createElement('input')
 
-      myInput.name = 'group'
-      myInput.value = dbResult.groupName_ID
+      myInput.name = 'project'
+      myInput.value = dbResult.projectName_ID
       myInput.type = 'hidden'
 
       form.method = 'POST'
-      form.action = '/groups/api/enterGroup'
+      form.action = '/projects/api/enterProject'
 
-      button.innerHTML = dbResult.groupName_ID
+      button.innerHTML = dbResult.projectName_ID
       button.className = 'btn-link'
       button.type = 'submit'
 

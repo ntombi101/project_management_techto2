@@ -81,15 +81,16 @@ mainRouter.post('/api/login', redirectHome, function (req, res) {
           console.log(`logged in user is ${session.getUser()}`)
 
           // store the employee name as a cookie
-          const userNameCookie_ = `${employee.firstname}`
+          const userNameCookie_ = `${employee.employeeNumber}`
           const userWelcomeMessage_ = `welcome ${employee.firstname}`
           console.log(`new greeting msg:  ${userNameCookie_}`)
           res.cookie('username', `${userNameCookie_}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/homepage')
           res.cookie('welcomemessage', `${userWelcomeMessage_}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/homepage')
-          res.cookie('user', `${employee.firstname}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/viewMeetings')
+          res.cookie('user', `${employee.employeeNumber}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/viewMeetings')
+          res.cookie('employeeNumber', `${employee.employeeNumber}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/viewMeetings')
           res.redirect(req.baseUrl + '/user/homepage')
         } else {
-          req.flash('errormessage', 'Incorrect Username or Password')
+          req.flash('errormessage', 'Incorrect Employee Number or Password')
           res.redirect(req.baseUrl + '/login')
         }
       }
