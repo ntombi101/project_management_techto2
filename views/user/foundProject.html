@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Project Found</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <!--link to .css file-->
+        <!--link rel="preconnect" href="https://fonts.gstatic.com"-->
+        <link href="https://fonts.googleapis.com/css2?family=Quintessential&display=swap" rel="stylesheet"> 
+        <link rel= "stylesheet" href="cdn/css/style.css">
+        
+    </head>
+    
+    <body> 
+
+        <h1 id="searching-project">We have found the searched Project.</h1>
+
+            <form action= "/projects/api/joinProject" method="post">
+
+                <label> Would you like to join this Project? </label><br>
+                <input type="radio" name="joinProjectAnswer" value="yes" /> Yes
+                <input type="radio" name="joinProjectAnswer" value="no" /> No<br><br>
+
+                <div>
+                    <button type="submit" 
+                    id="SubmitButton2">Submit</button>
+                </div>
+                 
+            </form>
+            
+
+    </body>
+</html>

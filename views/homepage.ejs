@@ -27,64 +27,38 @@
   <div class="column2 side1">
     <h2>Navigation</h2>
   <a href="/user/homepage" class="active">Home</a>
-  <a href="/user/Meetings">View Meetings</a>
-  <a href="/groups/group">Projects</a>
-  <a href="/groups/createGroup">Create Project</a>
-  <a href="/groups/searchGroups">Search Project</a>
-  <a href="/groups/manageCourses">Add Task</a>
+  <a href="/projects/project">Projects</a>
+  <a href="/projects/createProject">Create Project</a>
+  <a href="/projects/searchProjects">Search Project</a>
   <a href="/user/logout">Logout</a>
   </div>
   
   <div class="column2 middle">
-    <h2>Projects</h2>
+    <h1>Projects</h1>
     <div class="center">
-    <div id="grpdiv1" class="icons">
-  
-    </div>
-    <div id="grpdiv2" class="icons">
+    <table>
+      <tr>
+        <th>Company</th>
+        <th>Contact</th>
+        <th>Country</th>
+      </tr>
+      <tr>
+        <td>Alfreds Futterkiste</td>
+        <td>Maria Anders</td>
+        <td>Germany</td>
+      </tr>
+      <tr>
+        <td>Centro comercial Moctezuma</td>
+        <td>Francisco Chang</td>
+        <td>Mexico</td>
+      </tr>
+</table>
  
-    </div>
+  </div>
 </div>
   </div>
   
-  <div class="column2 side2">
-    
-
-        <% if(accepted.length) { %>
-          <% accepted.forEach(function(meeting) { %>
-            <% if(name==meeting.userName_ID) { %>
-              <% covid.forEach(function(status) { %>
-                <% if(status.userName==meeting.nameOfPersonRequesting) { %>
-                  <li>
-                    You had a <%= meeting.TypeOfMeeting %> meeting with <%= meeting.nameOfPersonRequesting %>
-                        who failed their covid screening on <%= meeting.date %>, you might want to isolate or get tested
-                          <br>
-                  </li>
-                  <div id="Dismissdiv" class="Dismiss">
-                    <a class="active" href="/user/dismissMeeting/<%=meeting.ID%>">Dismiss</a>
-                  </div>
-                  <% } %>
-                    <% }); %>
-                      <% } %>
-                        <% if(name==meeting.nameOfPersonRequesting) { %>
-                          <% covid.forEach(function(status) { %>
-                            <% if(status.userName==meeting.userName_ID) { %>
-                              <li>
-                                You had a <%= meeting.TypeOfMeeting %> meeting with <%= meeting.nameOfPersonRequesting
-                                    %>
-                                    who failed his covid screening on <%= meeting.date %>, you might want to isolate or
-                                      get tested
-                                      <br>
-                              </li>
-                              <div id="Dismissdiv" class="Dismiss">
-                                <a class="active" href="/user/dismissMeeting/<%=meeting.ID%>">Dismiss</a>
-                              </div>
-                              <% } %>
-                                <% }); %>
-                                  <% } %>
-                                    <% }); %>
-                                      <% } %>
-  </div>
+  
 </div>
   
 </body1>

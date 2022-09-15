@@ -91,27 +91,27 @@ exports.studyGroupPage = studyGroupPageFunctions
 const groupLogicFunctions = {}
 
 // check if the group exists in existingGroup table
-groupLogicFunctions.groupExistsInExistingGroup = function (grouplist, groupName) {
-  const studygroup = grouplist.filter(studygroup => studygroup.groupName_ID === groupName)
+groupLogicFunctions.groupExistsInExistingGroup = function (grouplist, projectName) {
+  const studygroup = grouplist.filter(studygroup => studygroup.projectName_ID === projectName)
   if (studygroup.length === 0) { return false } else return true
 }
 
 // check if the group exists in createdGroup table
-groupLogicFunctions.groupExistsInCreatedGroup = function (grouplist, groupName) {
-  const studygroup = grouplist.filter(studygroup => studygroup.groupName === groupName)
+groupLogicFunctions.groupExistsInCreatedGroup = function (grouplist, projectName) {
+  const studygroup = grouplist.filter(studygroup => studygroup.projectName === projectName)
   if (studygroup.length === 0) { return false } else return true
 }
 
 // check if person is part of group in existing group
-groupLogicFunctions.userPartOfExistingGroup = function (grouplist, userName) {
-  const name = grouplist.filter(name => name.userName_ID === userName)
+groupLogicFunctions.userPartOfExistingGroup = function (grouplist, employeeNumber) {
+  const name = grouplist.filter(name => name.employeeNumber_ID === employeeNumber)
   if (name.length === 0) { return false } else return true
 }
 
 // see if user is part of any group at all
-groupLogicFunctions.userPartOfGroup = function (grouplist, groupName, userName) {
-  if (groupLogicFunctions.groupExistsInExistingGroup(grouplist, groupName) && (groupLogicFunctions.userPartOfExistingGroup(grouplist, userName))) {
-    const found = grouplist.filter(found => (found.groupName_ID === groupName && found.userName_ID === userName))
+groupLogicFunctions.userPartOfGroup = function (grouplist, projectName, employeeNumber) {
+  if (groupLogicFunctions.groupExistsInExistingGroup(grouplist, projectName) && (groupLogicFunctions.userPartOfExistingGroup(grouplist, employeeNumber))) {
+    const found = grouplist.filter(found => (found.projectName_ID === projectName && found.employeeNumber_ID === employeeNumber))
     if (found.length === 0) { return false } else return true
   } else {
     return false
