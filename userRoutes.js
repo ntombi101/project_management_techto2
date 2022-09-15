@@ -121,76 +121,7 @@ router.get('/default', redirectLogIn, function (_req, res) {
 })
 
 router.get('/homepage', redirectLogIn, function (req, res) {
-  const userName = req.cookies.username
-  const val = 1
-  const covidStatus = 'Positive'
-  const type = 'face to face'
-
-  const dateOffset = (24 * 60 * 60 * 1000) * 5 // 5 days
-  const myDate = new Date()
-  myDate.setTime(myDate.getTime() - dateOffset)
-
-  let yesterday = new Date(myDate)
-  let dd1 = yesterday.getDate()
-  let mm1 = yesterday.getMonth() + 1 // January is 0!
-  const yyyy1 = yesterday.getFullYear()
-  if (dd1 < 10) {
-    dd1 = '0' + dd1
-  }
-  if (mm1 < 10) {
-    mm1 = '0' + mm1
-  }
-
-  yesterday = yyyy1 + '-' + mm1 + '-' + dd1
-
-  let today = new Date()
-  let dd = today.getDate()
-  let mm = today.getMonth() + 1 // January is 0!
-  const yyyy = today.getFullYear()
-  if (dd < 10) {
-    dd = '0' + dd
-  }
-  if (mm < 10) {
-    mm = '0' + mm
-  }
-
-  today = yyyy + '-' + mm + '-' + dd
-
-  db.pools
-    // Run query
-    .then((pool) => {
-      return pool.request()
-        // perfoming a query
-        .query(`SELECT * from meetingRequests WHERE meetingStatus = '${val}' AND TypeOfMeeting = '${type}' AND (userName_ID = '${userName}' OR nameOfPersonRequesting = '${userName}') AND date BETWEEN '${yesterday}' AND '${today}'`)
-    })
-    // Processing the response
-    .then(result => {
-      // console.log(result)
-      db.pools
-      // Run query
-        .then((pool) => {
-          return pool.request()
-          // perfoming a query
-            .query(`SELECT * from appUsers WHERE CovidFlag = '${covidStatus}'`)
-        })
-      // Processing the response
-        .then(result2 => {
-        //  console.log(result2)
-          res.render('homepage', { name: userName, accepted: result.recordset, covid: result2.recordset })
-        })
-      // If there's an error, return that with some description
-        .catch(err => {
-          res.send({
-            Error: err
-          })
-        })
-    })
-    // If there's an error, return that with some description
-    .catch(err => {
-      res.send({
-        Error: err
-      })
-    })
+  res.render('homepage', { errormessage: req.flash('errormessage') })
 })
 
 router.get('/ArrivedSafeNotification', redirectLogIn, function (_req, res) {

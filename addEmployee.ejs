@@ -14,15 +14,14 @@
 
 
 
-
 <body style="background-color: powderblue;">
   <div class="topnav4">
 		<a href='/user/homepage'>Home</a>
-    <a href= "/projects/CreatedProject">Back</a>
+    <a href= "/projects/CreatedGroup">Back</a>
 	</div>
 
 <div id="addrec">
-    <h3>Add the employee number of the employee you would like to invite to join your project</h3>
+    <h3>Add the employee number of the employee you would like to add to the project</h3>
 
     <% if(errormessage && errormessage.length> 0) { %>
       <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -32,8 +31,8 @@
       </div>
       <% } %>
 
-  <form id="frm3" action="/projects/api/joinByInvite" method="POST">
-    <label for="userName">Employee Number: </label><br>
+  <form id="frm3" action="/groups/api/joinByInvite" method="POST">
+    <label for="employeeNumber">Employee Number: </label><br>
     <input id="employeeNumber" name="employeeNumber" placeholder="Employee Number"><br><br>
 
     <input type="submit" value="submit">
