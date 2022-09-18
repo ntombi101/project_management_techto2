@@ -12,7 +12,7 @@
  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
  <script defer src="/cdn/scripts/user/bundle_dashBoard.js"></script>
- <script defer src="/cdn/scripts/user/groups.js"></script> 
+ <script src="/cdn/scripts/user/projectsDashboard.js"></script> <!-- Our JavaScript code for this page-->
 
 
 </head>
@@ -27,36 +27,27 @@
   <div class="column2 side1">
     <h2>Navigation</h2>
   <a href="/user/homepage" class="active">Home</a>
-  <a href="/projects/project">Projects</a>
+  <a href="/projects/project">List Individual Projects</a>
   <a href="/projects/createProject">Create Project</a>
   <a href="/projects/searchProjects">Search Project</a>
   <a href="/user/logout">Logout</a>
+
+</div>
+  
+
+  <div class="d-flex justify-content-center">
+    <div class="spinner-border" 
+         role="status" id="loading">
+        <span class="sr-only">Loading...</span>
+    </div>
   </div>
   
-  <div class="column2 middle">
-    <h1>Projects</h1>
-    <div class="center">
-    <table>
-      <tr>
-        <th>Company</th>
-        <th>Contact</th>
-        <th>Country</th>
-      </tr>
-      <tr>
-        <td>Alfreds Futterkiste</td>
-        <td>Maria Anders</td>
-        <td>Germany</td>
-      </tr>
-      <tr>
-        <td>Centro comercial Moctezuma</td>
-        <td>Francisco Chang</td>
-        <td>Mexico</td>
-      </tr>
-</table>
- 
-  </div>
-</div>
-  </div>
+<h1>List of Projects</h1>
+<!-- table for showing data -->
+<table id="projects"></table>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
   
   
 </div>

@@ -8,7 +8,7 @@ const session = require('./public/scripts/user/sessions.js')
 const sessions = require('./public/scripts/user/sessions.js')
 const ArrivedSafeNotification = require('../2021-009-project/public/scripts/user/Functions.js')
 const send = require('./public/scripts/user/emailNotifications.js')
-const { getActiveGroup } = require('./public/scripts/user/sessions.js')
+const {getActiveGroup } = require('./public/scripts/user/sessions.js')
 
 // had to create these global variables for logging purposes
 const today = new Date()
@@ -40,8 +40,6 @@ const redirectLogIn = (req, res, next) => {
 router.get('/CreatedProject', redirectLogIn, function (_req, res) {
   res.render('projectHomeTemplate', { errormessage: _req.flash('errormessage') })
 })
-
-
 
 
 router.get('/members', redirectLogIn, function (_req, res) {
@@ -103,6 +101,28 @@ router.get('/api/list', function (req, res) {
       return pool.request()
         // perfoming a query
         .query(`SELECT * FROM existingProject WHERE projectName_ID = '${sessions.getActiveGroup()}'`)
+    })
+    // Processing the response
+    .then(result => {
+      res.send(result.recordset)
+    })
+    // If there's an error, return that with some description
+    .catch(err => {
+      res.send({
+        Error: err
+      })
+    })
+})
+
+router.get('/api/listProjects', function (req, res) {
+  // Make a query to the database to fetch the unique table data. This is the data that will go into 
+
+  db.pools
+    // Run query
+    .then((pool) => {
+      return pool.request()
+        // perfoming a query
+        .query(`SELECT * FROM uniqueProjects WHERE employeeNumber_ID = '${sessions.getUser()}'`)
     })
     // Processing the response
     .then(result => {

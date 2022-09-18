@@ -31,30 +31,3 @@ fetch('/user/api/list') // Returns a Promise for the GET request
     // response code is the reason for jumping to this
     // catch() function.
   })
-
-fetch('/groups/api/viewRating')
-  .then(function (response) {
-    if (response.ok) return response.json()
-    else { throw new Error('Failed to load rating database result: response code invalid!') }
-  })
-  .then(function (data) {
-    // const classList = document.getElementById('membersList')
-    // console.log(data)
-
-    data.forEach(function (dbResult) {
-      const ul = document.getElementById('membersList')
-      const items = ul.getElementsByTagName('li')
-
-      for (let i = 0; i < items.length; ++i) {
-        if (items[i].innerText == dbResult.username) {
-          const space = document.createTextNode(' ')
-          const text = document.createTextNode(dbResult.rating)
-          items[i].appendChild(space)
-          items[i].appendChild(text)
-        }
-      }
-    })
-  })
-  .catch(function (e) {
-    window.alert(e)
-  })
