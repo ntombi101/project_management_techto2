@@ -44,21 +44,6 @@ router.get('/CreatedProject', redirectLogIn, function (_req, res) {
 
 router.get('/members', redirectLogIn, function (_req, res) {
   res.sendFile(path.join(__dirname, 'views', 'user', 'members.html'))
-  db.pools
-  // Run query
-    .then((pool) => {
-      return pool.request()
-      // perfoming a query
-        .query(`INSERT INTO logActivities (initiatedBy, activity, inGroup, dateAndTime) VALUES ('${sessions.getUser()}', 'Viewed the members in the group','${sessions.getActiveGroup()}', '${year}-${month}-${day} ${hour}:${minutes}:${seconds}');`)
-    })
-  // Processing the response
-    .then(result => {
-      console.log('logged successfully')
-    })
-  // If there's an error, return that with some description
-    .catch(err => {
-      console.log(err)
-    })
 })
 
 router.get('/resources', redirectLogIn, function (_req, res) {

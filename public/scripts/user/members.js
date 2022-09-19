@@ -18,7 +18,7 @@ fetch('/user/api/list') // Returns a Promise for the GET request
     data.forEach(function (dbResult) {
     // Create a new list entry
       const li = document.createElement('LI')
-      const liText = document.createTextNode(dbResult.userName_ID)
+      const liText = document.createTextNode(dbResult.employeeNumber_ID)
 
       // Append list text to list item and list item to list
       li.appendChild(liText)

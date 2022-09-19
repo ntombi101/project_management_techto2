@@ -105,7 +105,7 @@ io.on('connection', socket => {
       // Load Existing Messages
       for (let a = mss.length - 1; a > -1; a--) {
         const autolinker = new Autolinker()
-        io.emit('message', format.formatMessage(mss[a].userName_ID, autolinker.link(mss[a].resourcesLink), `${mss[a].dateTime.getHours() - 2}:${String(mss[a].dateTime.getMinutes()).padStart(2, '0')}`, `${String(mss[a].dateTime.getDate()).padStart(2, '0')}/${String(mss[a].dateTime.getMonth() + 1).padStart(2, '0')}/${mss[a].dateTime.getFullYear()}`))
+        io.emit('message', format.formatMessage(mss[a].employeeNumber_ID, autolinker.link(mss[a].resourcesLink), `${mss[a].dateTime.getHours() - 2}:${String(mss[a].dateTime.getMinutes()).padStart(2, '0')}`, `${String(mss[a].dateTime.getDate()).padStart(2, '0')}/${String(mss[a].dateTime.getMonth() + 1).padStart(2, '0')}/${mss[a].dateTime.getFullYear()}`))
       }
     })
   // If there's an error, return that with some description
