@@ -29,16 +29,13 @@
             <label for="endDate">End Date</label>
             <input type="text" required id="endDate" name="endDate" placeholder="YYYY-MM-DD">
 
-            <label for="Progress">Progress Status</label>
-            <input type="text" required id="ProgressStatus" name="ProgressStatus" placeholder="Pending, In- Progress, Completed">
-            <datalist id="ProgressStatus">
-              <option
-              value="In- Progress">
-              <option
-              value="Pending">
-              <option
-              value="Complete">
-          </datalist>
+           
+            <label for="ProgressStatus">Progress Status:</label>
+              <select id="ProgressStatus" name="ProgressStatus" size="1">
+                <option value="ProgressStatus">Pending</option>
+                <option value="ProgressStatus">In- Progress</option>
+                <option value="ProgressStatus">Completed</option>
+              </select>
 
             <label for="description">Description</label>
             <input type="text" required id="description" name="description" placeholder="Add Description">

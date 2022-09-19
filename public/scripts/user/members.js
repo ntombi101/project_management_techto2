@@ -18,7 +18,7 @@ fetch('/user/api/list') // Returns a Promise for the GET request
     data.forEach(function (dbResult) {
     // Create a new list entry
       const li = document.createElement('LI')
-      const liText = document.createTextNode(dbResult.userName_ID)
+      const liText = document.createTextNode(dbResult.employeeNumber_ID)
 
       // Append list text to list item and list item to list
       li.appendChild(liText)
@@ -30,31 +30,4 @@ fetch('/user/api/list') // Returns a Promise for the GET request
     // This will be the string thrown in line 7 IF the
     // response code is the reason for jumping to this
     // catch() function.
-  })
-
-fetch('/groups/api/viewRating')
-  .then(function (response) {
-    if (response.ok) return response.json()
-    else { throw new Error('Failed to load rating database result: response code invalid!') }
-  })
-  .then(function (data) {
-    // const classList = document.getElementById('membersList')
-    // console.log(data)
-
-    data.forEach(function (dbResult) {
-      const ul = document.getElementById('membersList')
-      const items = ul.getElementsByTagName('li')
-
-      for (let i = 0; i < items.length; ++i) {
-        if (items[i].innerText == dbResult.username) {
-          const space = document.createTextNode(' ')
-          const text = document.createTextNode(dbResult.rating)
-          items[i].appendChild(space)
-          items[i].appendChild(text)
-        }
-      }
-    })
-  })
-  .catch(function (e) {
-    window.alert(e)
   })

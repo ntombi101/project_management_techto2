@@ -39,14 +39,14 @@ fetch('/user/api/list') // Returns a Promise for the GET request
   })
   .then(function (data) { // Display the JSON data appropriately
     const room = document.getElementById('room-name')
-    room.innerHTML = data[0].groupName_ID
+    room.innerHTML = data[0].projectName_ID
     const groupMembers = document.getElementById('users')
     console.log(data)
     // Iterate through all the results from db
     data.forEach(function (dbResult) {
     // Create a new list entry
       const li = document.createElement('LI')
-      const liText = document.createTextNode(dbResult.userName_ID)
+      const liText = document.createTextNode(dbResult.employeeNumber_ID)
 
       // Append list text to list item and list item to list
       li.appendChild(liText)
