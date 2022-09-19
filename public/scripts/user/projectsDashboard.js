@@ -9,37 +9,30 @@ function show (data) {
 
   let tab = 
         `<tr>
-          <th>Project</th>
-          <th>Start Date</th>
-          <th>End Date</th>
-          <th>Description</th>
-          <th>Progress STatus</th>
-          <th>Date Created</th>
-          <th>Action</th>
+          <th>Project </th>
+          <th>Start Date </th>
+          <th>End Date </th>
+          <th>Description </th>
+          <th>Progress </th>
+          <th>DateCreated </th>
          </tr>`;
     
     // Loop to access all rows 
     data.forEach(element => {
-
-      //sorting out the dates:
-      const startDate= JSON.stringify(elem.startDate)
-      const sliced_String_startDate= string_startDate.slice(1,11)
-      console.log(sliced_String_startDate)
-
       tab += `<tr> 
-      <td>${element.projectName} </td>
-      <td>${element.startDate}</td>
-      <td>${element.endDate}</td> 
-      <td>${element.description}</td> 
-      <td>${element.progress}</td>
-      <td>${element.dateCreated}</td>         
+      <td>${element.projectName + '&nbsp &nbsp &nbsp &nbsp'} </td>
+      <td>${JSON.stringify(element.startDate).slice(1,11) +'&nbsp &nbsp &nbsp &nbsp'} </td>
+      <td>${JSON.stringify(element.endDate).slice(1,11) + '&nbsp &nbsp &nbsp &nbsp'} </td> 
+      <td>${element.description + '&nbsp &nbsp &nbsp &nbsp'} </td> 
+      <td>${element.progress + '&nbsp &nbsp &nbsp &nbsp'}</td>
+      <td>${JSON.stringify(element.dateCreated).slice(1,11) + '&nbsp &nbsp &nbsp &nbsp'}</td>         
       </tr>`;
 
     // Setting innerHTML as tab variable
     document.getElementById("projects").innerHTML = tab
 
     })
-
+    
 }
 
 
