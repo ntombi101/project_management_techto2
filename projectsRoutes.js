@@ -116,6 +116,8 @@ router.post('/api/createProject', redirectLogIn, function (req, res) {
   const employeeNumber_ID = req.cookies.employeeNumber
   const userName = req.cookies.user
 
+  console.log(`Here is the project status: ${progressStatus}`)
+
   const string_startDate= JSON.stringify(req.body.startDate)
   const sliced_String_startDate= string_startDate.slice(1,11)
   const [year1, month1, day1] = sliced_String_startDate.split('-')
