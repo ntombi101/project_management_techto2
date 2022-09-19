@@ -112,15 +112,20 @@ router.get('/api/projectlist', function (req, res) {
 router.post('/api/createProject', redirectLogIn, function (req, res) {
   const projectName = req.body.projectName
   const progressStatus = req.body.ProgressStatus
+  const actual_startDate= req.body.startDate
+  const actual_endtDate= req.body.endDate
   const description = req.body.description
   const employeeNumber_ID = req.cookies.employeeNumber
   const userName = req.cookies.user
+
+  console.log(actual_startDate)
+  console.log(actual_endtDate)
 
   console.log(`Here is the project status: ${progressStatus}`)
 
   const string_startDate= JSON.stringify(req.body.startDate)
   const sliced_String_startDate= string_startDate.slice(1,11)
-  const [year1, month1, day1] = sliced_String_startDate.split('-')
+  const [year1, month1, day1] = sliced_String_startDate.split('/')
   const startDate= new Date(year1, month1, day1);
   const start_day = String(startDate.getDate()).padStart(2, '0')
   const start_month = String(startDate.getMonth()).padStart(2, '0')
@@ -128,7 +133,7 @@ router.post('/api/createProject', redirectLogIn, function (req, res) {
 
   const string_endDate= JSON.stringify(req.body.endDate)
   const sliced_String_endDate= string_endDate.slice(1,11)
-  const [year, month, day] = sliced_String_endDate.split('-')
+  const [year, month, day] = sliced_String_endDate.split('/')
   const endDate= new Date(year, month, day);
   const end_day = String(endDate.getDate()).padStart(2, '0')
   const end_month = String(endDate.getMonth()).padStart(2, '0')
@@ -167,7 +172,7 @@ router.post('/api/createProject', redirectLogIn, function (req, res) {
           .then((pool) => {
             return pool.request()
               .query(`INSERT INTO uniqueProjects (projectName, startDate, endDate, description, progress, employeeNumber_ID, dateCreated) 
-                        VALUES('${projectName}', '${start_year}-${start_month}-${start_day}', '${end_year}-${end_month}-${end_day}', '${description}', '${progressStatus}', '${employeeNumber_ID}', '${created_year}-${created_month}-${created_day}' )`);
+                        VALUES('${projectName}', '${actual_startDate}', '${actual_endtDate}', '${description}', '${progressStatus}', '${employeeNumber_ID}', '${created_year}-${created_month}-${created_day}' )`);
 
           })
           .catch(err => {

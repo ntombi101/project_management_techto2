@@ -20,25 +20,24 @@
 
     <form id="frm3" action="/projects/api/createProject" method="post">
     
-            <label for="projectName">Project Name</label>
-            <input type="text" required id="projectName" name="projectName" placeholder="Enter Project Name">
+            <label for="projectName">Project Name</label><br>
+            <input type="text" required id="projectName" name="projectName" placeholder="Enter Project Name"><br>
 
             <label for="startDate">Start Date</label>
-            <input type="text" required id="startDate" name="startDate" placeholder="YYYY-MM-DD">
+            <input type="date" required id="startDate" name="startDate" min= "2022-09-01" max="2025-12-31" required><br>
 
-            <label for="endDate">End Date</label>
-            <input type="text" required id="endDate" name="endDate" placeholder="YYYY-MM-DD">
+            <label for="endDate">End Date:</label>            
+            <input type="date" required id="endDate" name="endDate" min= "2022-09-01" max="2030-12-31" required><br>
 
            
             <label for="ProgressStatus">Progress Status:</label>
-              <select id="ProgressStatus" name="ProgressStatus" size="1">
-                <option value="ProgressStatus">Pending</option>
-                <option value="ProgressStatus">In- Progress</option>
-                <option value="ProgressStatus">Completed</option>
-              </select>
+              <select id="ProgressStatus" name="ProgressStatus" size="1"><br><br>
+                <option value="Pending">Pending</option>
+                <option value="In- Progress">In- Progress</option>
+              </select><br><br>
 
             <label for="description">Description</label>
-            <input type="text" required id="description" name="description" placeholder="Add Description">
+            <input type="text" required id="description" name="description" placeholder="Add Description"><br>
 
             <input  type="submit" value="Create Project">
     </form>
