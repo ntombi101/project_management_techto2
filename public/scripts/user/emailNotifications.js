@@ -105,6 +105,42 @@ module.exports = {
     })
   },
 
+
+  // Notifiation to notify a member that they were allocated a task
+  allocatedTask: function (Email, Username, projectName, taskName, completionDate) {
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'techtoprojectmanagement@gmail.com',
+        pass: 'kcdiordljsjqfulx'
+      }
+    })
+
+    const mailOptions3 = {
+      from: 'webappeie9@gmail.com',
+      to: Email,
+      subject: 'BCX Task Allocation',
+      text: 'We are within',
+      html: `<center>
+            <h1>Hi ${Username}.</h1><br/><br/><p>  
+            <h2>This email serves to inform you that you have been allocated the task: ${taskName} in 
+                ${projectName}.</h2>
+                <br/>
+                <h3>Please visit the ${projectName} page in the project management system to view details of this task. The task is due on ${completionDate}</h3><br/><br/><p>
+                <br/>
+                <h2>Project Management System <br/>
+                TechtoIT Solutions PTY LTD</p></h2>`
+    }
+
+    transporter.sendMail(mailOptions3, (err, data) => {
+      if (err) {
+        console.log('Error has occured: ', err)
+      } else {
+        console.log('Email sent successfully')
+      }
+    })
+  },
+
   // Notifiation to notify members that voting has started
   addMember: function (Email, Username, projectName, invitee) {
     const transporter = nodemailer.createTransport({

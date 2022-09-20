@@ -56,6 +56,11 @@ router.get('/CreateProject', redirectLogIn, function (_req, res) {
   res.render('createProject', { errormessage: _req.flash('errormessage') })
 })
 
+//Add Task
+router.get('/addTask', redirectLogIn, function (_req, res) {
+  res.render('addTasks', { errormessage: _req.flash('errormessage') })
+})
+
 //Add member
 router.get('/joinByInvite', redirectLogIn, function (req, res) {
   // res.sendFile(path.join(__dirname, 'views', 'user', 'joinByInvite.html'))
@@ -435,6 +440,62 @@ router.post('/api/updateProjectStatus', redirectLogIn, function (req, res) {
       })
     })
   
+})
+
+router.post('/api/addTask', redirectLogIn, function (req, res) {
+  const taskName = req.body.taskName
+  const progressStatus = req.body.ProgressStatus
+  const description = req.body.description
+  const employeeNumber_ID = req.body.employee
+  const projectName= req.cookies.newGroupName
+  const budget = req.body.budget
+  const completionDate= req.body.completionDate
+ 
+  // make a query to create the new project.
+  db.pools
+    .then((pool) => {
+      return pool.request()
+        .query('SELECT * FROM tasks')
+    })
+    .then(result => {
+      // Check if task already exists.
+      if (groups.groupLogic.taskExistsInTaskTable(result.recordset, taskName) === true) {
+        req.flash('errormessage', 'This Task Already Exists! All tasks are required to be Unique. Consider adding a project name tag to task name to make it unique.')
+        res.redirect(req.baseUrl + '/addTask')
+      } else {
+        // insert this task into task table
+        db.pools
+          .then((pool) => {
+            return pool.request()
+              .query(`INSERT INTO tasks (taskName, projectName_ID, employeeNumber_ID,  progressStatus, Description, providedBudget, completionDate) 
+                        VALUES('${taskName}', '${projectName}', '${employeeNumber_ID}', '${progressStatus}', '${description}', '${budget}', '${completionDate}' )`);
+
+          })
+          .catch(err => {
+            res.send({
+              Error: err
+            })
+          })
+
+          //Send email to assigned employee to alert them of new Task.
+          db.pools
+                .then((pool) => {
+                  return pool.request()
+                    .query(`SELECT * FROM employees WHERE employeeNumber = '${employeeNumber_ID}' `)
+                })
+                .then(result => {
+
+                    send.allocatedTask(result.recordset[0].email, result.recordset[0].firstName, projectName, taskName, completionDate) 
+                })
+
+                .catch(err => {
+                  res.send({
+                    Error: err
+                  })
+                }) 
+      }
+    })
+    res.redirect(req.baseUrl + '/createdProject')          
 })
 
 

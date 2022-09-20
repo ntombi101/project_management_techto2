@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Add Task Page</title>
+    <meta charset="utf-8" />
+    <link rel= "stylesheet" href="/cdn/css/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body style="background-color: powderblue;">
+	<div class="topnav4">
+		<a href='/user/homepage'>Home</a>
+	</div>
+
+<div id="addrec">
+  <h3 >Add a Task to The Project Here</h3>
+
+    <form id="frm3" action="/projects/api/addTask" method="post">
+    
+            <label for="taskName">Task Name</label><br>
+            <input type="text" required id="taskName" name="taskName" placeholder="Enter Task Name"><br>
+
+            <label for="employee">Assigned Employee</label><br>
+            <input type="employee" required id="employee" name="employee" placeholder="Enter Assigned Employee's employeeNumber"><br>
+
+            <label for="budget">Provided Budget</label><br>
+            <input type="budget" required id="budget" name="budget" placeholder="Enter Allocated Budget to Task (R0.00)"><br>
+
+            <label for="completionDate">Completion Date</label>
+            <input type="date" required id="completionDate" name="completionDate" min= "2022-09-01" max="2025-12-31" required><br>
+           
+            <label for="ProgressStatus">Progress Status:</label>
+              <select id="ProgressStatus" name="ProgressStatus" size="1"><br><br>
+                <option value="Pending">Pending</option>
+                <option value="In- Progress">In- Progress</option>
+              </select><br><br>
+
+            <label for="description">Description</label>
+            <input type="text" required id="description" name="description" placeholder="Add Description"><br>
+
+            <input  type="submit" value="Create Task">
+    </form>
+</div>
+</body><br>
+
+<% if(errormessage && errormessage.length > 0) { %>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+       <strong>Warning!</strong> <%=errormessage %> 
+       <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+  <% } %>
+  
+</html> 
