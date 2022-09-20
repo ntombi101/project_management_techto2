@@ -92,6 +92,11 @@ router.get('/homepage', redirectLogIn, function (req, res) {
   res.render('homepage', { errormessage: req.flash('errormessage') })
 })
 
+//View Tasks Dashboard
+router.get('/viewTasks', redirectLogIn, function (req, res) {
+  res.render('viewTasks', { errormessage: req.flash('errormessage') })
+})
+
 //list projects
 router.get('/api/projectlist', function (req, res) {
   // Make a query to the database

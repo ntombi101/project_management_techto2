@@ -121,6 +121,28 @@ router.get('/api/listProjects', function (req, res) {
     })
 })
 
+router.get('/api/listTasks', function (req, res) {
+  // Make a query to the database to fetch the unique table data. This is the data that will go into 
+
+  db.pools
+    // Run query
+    .then((pool) => {
+      return pool.request()
+        // perfoming a query
+        .query(`SELECT * FROM tasks WHERE employeeNumber_ID = '${sessions.getUser()}'`)
+    })
+    // Processing the response
+    .then(result => {
+      res.send(result.recordset)
+    })
+    // If there's an error, return that with some description
+    .catch(err => {
+      res.send({
+        Error: err
+      })
+    })
+})
+
 
 module.exports = {
   router,
