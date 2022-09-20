@@ -67,6 +67,11 @@ router.get('/project', redirectLogIn, function (req, res) {
   res.sendFile(path.join(__dirname, 'views', 'user', 'projects.html'))
 })
 
+//update project status
+router.get('/updateProjectStatus', redirectLogIn, function (req, res) {
+  res.render('updateProjectStatus', { errormessage: req.flash('errormessage') })
+})
+
 //Search projects
 router.get('/searchProjects', redirectLogIn, function (req, res) {
   res.render('searchProject', { errormessage: req.flash('errormessage') })
@@ -315,7 +320,7 @@ router.post('/api/searchProjects', redirectLogIn, function (req, res) {
     })
 })
 
-// Join Group
+// Update Project Status
 router.post('/api/joinProject', redirectLogIn, function (req, res) {
   const projectName = req.cookies.groupName
   const user = req.cookies.username
@@ -391,6 +396,47 @@ router.post('/api/joinProject', redirectLogIn, function (req, res) {
         res.redirect(req.baseUrl + '/homepage')
       }
 })
+
+router.post('/api/updateProjectStatus', redirectLogIn, function (req, res) {
+  const newProjectStatus = req.body.newProgressStatus
+  const projectName= req.cookies.newGroupName
+
+  db.pools
+    .then((pool) => {
+      return pool.request()
+        .query(`SELECT * FROM uniqueProjects WHERE projectName = '${projectName}'`)
+    })
+    .then(result => {
+      // Check if group name exists
+      if ( !(result.recordset[0].progress === newProjectStatus) ) {
+        console.log(`Update Project Status to: ${newProjectStatus} in ${projectName} Project`)
+        db.pools
+          .then((pool) => {
+              return pool.request()
+                .query(`UPDATE uniqueProjects SET progress = '${newProjectStatus}'  WHERE projectName = '${projectName}'`)
+            })
+
+          .catch(err => {
+            res.send({
+               Error: err
+            })
+          })
+
+        res.redirect(req.baseUrl + '/createdProject')
+      } else {
+        req.flash('errormessage', 'Progress status not updated. NEW progress status is same as previous!')
+        res.redirect(req.baseUrl + '/updateProjectStatus')
+      }
+    })
+
+    .catch(err => {
+      res.send({
+        Error: err
+      })
+    })
+  
+})
+
 
 
 
