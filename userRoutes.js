@@ -123,13 +123,14 @@ router.get('/api/listProjects', function (req, res) {
 
 router.get('/api/listTasks', function (req, res) {
   // Make a query to the database to fetch the unique table data. This is the data that will go into 
+  const projectName= req.cookies.newGroupName
 
   db.pools
     // Run query
     .then((pool) => {
       return pool.request()
         // perfoming a query
-        .query(`SELECT * FROM tasks WHERE employeeNumber_ID = '${sessions.getUser()}'`)
+        .query(`SELECT * FROM tasks WHERE projectName_ID = '${projectName}'`)
     })
     // Processing the response
     .then(result => {
