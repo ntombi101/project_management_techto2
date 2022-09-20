@@ -56,6 +56,11 @@ router.get('/CreateProject', redirectLogIn, function (_req, res) {
   res.render('createProject', { errormessage: _req.flash('errormessage') })
 })
 
+//Add Task
+router.get('/addTask', redirectLogIn, function (_req, res) {
+  res.render('addTasks', { errormessage: _req.flash('errormessage') })
+})
+
 //Add member
 router.get('/joinByInvite', redirectLogIn, function (req, res) {
   // res.sendFile(path.join(__dirname, 'views', 'user', 'joinByInvite.html'))
@@ -65,6 +70,11 @@ router.get('/joinByInvite', redirectLogIn, function (req, res) {
 //Visit a project or Go into a project
 router.get('/project', redirectLogIn, function (req, res) {
   res.sendFile(path.join(__dirname, 'views', 'user', 'projects.html'))
+})
+
+//update project status
+router.get('/updateProjectStatus', redirectLogIn, function (req, res) {
+  res.render('updateProjectStatus', { errormessage: req.flash('errormessage') })
 })
 
 //Search projects
@@ -80,6 +90,11 @@ router.get('/joinProject', redirectLogIn, function (req, res) {
 //Take to homepage
 router.get('/homepage', redirectLogIn, function (req, res) {
   res.render('homepage', { errormessage: req.flash('errormessage') })
+})
+
+//View Tasks Dashboard
+router.get('/viewTasks', redirectLogIn, function (req, res) {
+  res.render('viewTasks', { errormessage: req.flash('errormessage') })
 })
 
 //list projects
@@ -112,15 +127,20 @@ router.get('/api/projectlist', function (req, res) {
 router.post('/api/createProject', redirectLogIn, function (req, res) {
   const projectName = req.body.projectName
   const progressStatus = req.body.ProgressStatus
+  const actual_startDate= req.body.startDate
+  const actual_endtDate= req.body.endDate
   const description = req.body.description
   const employeeNumber_ID = req.cookies.employeeNumber
   const userName = req.cookies.user
+
+  console.log(actual_startDate)
+  console.log(actual_endtDate)
 
   console.log(`Here is the project status: ${progressStatus}`)
 
   const string_startDate= JSON.stringify(req.body.startDate)
   const sliced_String_startDate= string_startDate.slice(1,11)
-  const [year1, month1, day1] = sliced_String_startDate.split('-')
+  const [year1, month1, day1] = sliced_String_startDate.split('/')
   const startDate= new Date(year1, month1, day1);
   const start_day = String(startDate.getDate()).padStart(2, '0')
   const start_month = String(startDate.getMonth()).padStart(2, '0')
@@ -128,7 +148,7 @@ router.post('/api/createProject', redirectLogIn, function (req, res) {
 
   const string_endDate= JSON.stringify(req.body.endDate)
   const sliced_String_endDate= string_endDate.slice(1,11)
-  const [year, month, day] = sliced_String_endDate.split('-')
+  const [year, month, day] = sliced_String_endDate.split('/')
   const endDate= new Date(year, month, day);
   const end_day = String(endDate.getDate()).padStart(2, '0')
   const end_month = String(endDate.getMonth()).padStart(2, '0')
@@ -167,7 +187,7 @@ router.post('/api/createProject', redirectLogIn, function (req, res) {
           .then((pool) => {
             return pool.request()
               .query(`INSERT INTO uniqueProjects (projectName, startDate, endDate, description, progress, employeeNumber_ID, dateCreated) 
-                        VALUES('${projectName}', '${start_year}-${start_month}-${start_day}', '${end_year}-${end_month}-${end_day}', '${description}', '${progressStatus}', '${employeeNumber_ID}', '${created_year}-${created_month}-${created_day}' )`);
+                        VALUES('${projectName}', '${actual_startDate}', '${actual_endtDate}', '${description}', '${progressStatus}', '${employeeNumber_ID}', '${created_year}-${created_month}-${created_day}' )`);
 
           })
           .catch(err => {
@@ -310,7 +330,7 @@ router.post('/api/searchProjects', redirectLogIn, function (req, res) {
     })
 })
 
-// Join Group
+// Update Project Status
 router.post('/api/joinProject', redirectLogIn, function (req, res) {
   const projectName = req.cookies.groupName
   const user = req.cookies.username
@@ -386,6 +406,103 @@ router.post('/api/joinProject', redirectLogIn, function (req, res) {
         res.redirect(req.baseUrl + '/homepage')
       }
 })
+
+router.post('/api/updateProjectStatus', redirectLogIn, function (req, res) {
+  const newProjectStatus = req.body.newProgressStatus
+  const projectName= req.cookies.newGroupName
+
+  db.pools
+    .then((pool) => {
+      return pool.request()
+        .query(`SELECT * FROM uniqueProjects WHERE projectName = '${projectName}'`)
+    })
+    .then(result => {
+      // Check if group name exists
+      if ( !(result.recordset[0].progress === newProjectStatus) ) {
+        console.log(`Update Project Status to: ${newProjectStatus} in ${projectName} Project`)
+        db.pools
+          .then((pool) => {
+              return pool.request()
+                .query(`UPDATE uniqueProjects SET progress = '${newProjectStatus}'  WHERE projectName = '${projectName}'`)
+            })
+
+          .catch(err => {
+            res.send({
+               Error: err
+            })
+          })
+
+        res.redirect(req.baseUrl + '/createdProject')
+      } else {
+        req.flash('errormessage', 'Progress status not updated. NEW progress status is same as previous!')
+        res.redirect(req.baseUrl + '/updateProjectStatus')
+      }
+    })
+
+    .catch(err => {
+      res.send({
+        Error: err
+      })
+    })
+  
+})
+
+router.post('/api/addTask', redirectLogIn, function (req, res) {
+  const taskName = req.body.taskName
+  const progressStatus = req.body.ProgressStatus
+  const description = req.body.description
+  const employeeNumber_ID = req.body.employee
+  const projectName= req.cookies.newGroupName
+  const budget = req.body.budget
+  const completionDate= req.body.completionDate
+ 
+  // make a query to create the new project.
+  db.pools
+    .then((pool) => {
+      return pool.request()
+        .query('SELECT * FROM tasks')
+    })
+    .then(result => {
+      // Check if task already exists.
+      if (groups.groupLogic.taskExistsInTaskTable(result.recordset, taskName) === true) {
+        req.flash('errormessage', 'This Task Already Exists! All tasks are required to be Unique. Consider adding a project name tag to task name to make it unique.')
+        res.redirect(req.baseUrl + '/addTask')
+      } else {
+        // insert this task into task table
+        db.pools
+          .then((pool) => {
+            return pool.request()
+              .query(`INSERT INTO tasks (taskName, projectName_ID, employeeNumber_ID,  progressStatus, Description, providedBudget, completionDate) 
+                        VALUES('${taskName}', '${projectName}', '${employeeNumber_ID}', '${progressStatus}', '${description}', '${budget}', '${completionDate}' )`);
+
+          })
+          .catch(err => {
+            res.send({
+              Error: err
+            })
+          })
+
+          //Send email to assigned employee to alert them of new Task.
+          db.pools
+                .then((pool) => {
+                  return pool.request()
+                    .query(`SELECT * FROM employees WHERE employeeNumber = '${employeeNumber_ID}' `)
+                })
+                .then(result => {
+
+                    send.allocatedTask(result.recordset[0].email, result.recordset[0].firstName, projectName, taskName, completionDate) 
+                })
+
+                .catch(err => {
+                  res.send({
+                    Error: err
+                  })
+                }) 
+      }
+    })
+    res.redirect(req.baseUrl + '/createdProject')          
+})
+
 
 
 

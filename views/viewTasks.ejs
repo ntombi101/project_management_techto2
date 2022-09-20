@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>View Tasks</title>
 
-<title>Home Page</title>
-
- <meta charset="utf-8" />
+    <meta charset="utf-8" />
  <link rel= "stylesheet" href="/cdn/css/style.css">
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -12,45 +11,29 @@
  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
  <script defer src="/cdn/scripts/user/bundle_dashBoard.js"></script>
- <script src="/cdn/scripts/user/projectsDashboard.js"></script> <!-- Our JavaScript code for this page-->
-
-
+ <script src="/cdn/scripts/user/tasksDashboard.js"></script> <!-- Our JavaScript code for this page-->
 </head>
-<body1>
 
-<div class="header">
- Dashboard: <br>
-    <span id="welcomeMessage" contenteditable="false"> </span>
-</div>
-
-<div class="row2">
-  <div class="column2 side1">
-    <h2>Navigation</h2>
-  <a href="/user/homepage" class="active">Home</a>
-  <a href="/projects/project">List Individual Projects</a>
-  <a href="/projects/createProject">Create Project</a>
-  <a href="/projects/searchProjects">Search Project</a>
-  <a href="/user/logout">Logout</a>
-
-</div>
+<body style="background-color: powderblue;">
+	<div class="topnav4">
+		<a href='/user/homepage'>Home</a>
+        <a href= "/projects/CreatedProject">Back</a>
+	</div>
   
 
-  <div class="d-flex justify-content-center">
-    <div class="spinner-border" 
-         role="status" id="loading">
-        <span class="sr-only">Loading...</span>
-    </div>
+<div class="d-flex justify-content-center">
+  <div class="spinner-border" 
+       role="status" id="loading">
+      <span class="sr-only">Loading...</span>
   </div>
-  
-<h2>List of Projects</h2>
+</div>
+
+<h2>List of Tasks in the Project</h2>
 <!-- table for showing data -->
-<table class="center" id="projects"></table>
+<table class="center" id="tasks"></table>
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
   
-  
-</div>
-  
-</body1>
-</html>
+</html> 

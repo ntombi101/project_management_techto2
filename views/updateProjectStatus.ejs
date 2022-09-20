@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <title>Update Project Status</title>
+ <meta charset="utf-8" />
+ <link rel= "stylesheet" href="/cdn/css/style.css">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body style="background-color: powderblue;">
+  <div class="topnav4">
+		<a href='/user/homepage'>Home</a>
+    <a href= "/projects/createdProject">Back</a>
+	</div>
+
+  <div id="addCirc2">
+    <h3>Update Project Status</h3>
+    <form id="frm3" action ="/projects/api/updateProjectStatus" method="POST" >
+        <label for="newProgressStatus">Progress Status:</label>
+        <select id="newProgressStatus" name="newProgressStatus" size="1"><br><br>
+          <option value="Pending">Pending</option>
+          <option value="In- Progress">In- Progress</option>
+          <option value="Completed">Completed</option>
+        </select><br><br>
+
+        <input  type="submit" value="Update Progress Status">
+    </form>
+  </div>
+
+<% if(errormessage && errormessage.length > 0) { %>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+       <strong>Warning!</strong> <%=errormessage %> 
+       <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+  <% } %>
+</body>
+</html>

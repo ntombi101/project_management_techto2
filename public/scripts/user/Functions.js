@@ -102,6 +102,11 @@ groupLogicFunctions.groupExistsInCreatedGroup = function (grouplist, projectName
   if (studygroup.length === 0) { return false } else return true
 }
 
+groupLogicFunctions.taskExistsInTaskTable = function (grouplist, taskName) {
+  const studygroup = grouplist.filter(studygroup => studygroup.tasktName === taskName)
+  if (studygroup.length === 0) { return false } else return true
+}
+
 // check if person is part of group in existing group
 groupLogicFunctions.userPartOfExistingGroup = function (grouplist, employeeNumber) {
   const name = grouplist.filter(name => name.employeeNumber_ID === employeeNumber)

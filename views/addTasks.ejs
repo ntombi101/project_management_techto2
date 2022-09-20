@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Create Project Page</title>
+    <title>Add Task Page</title>
     <meta charset="utf-8" />
     <link rel= "stylesheet" href="/cdn/css/style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -16,19 +16,21 @@
 	</div>
 
 <div >
-  <h3 >Create A Project Here</h3>
+  <h3 >Add a Task to The Project Here</h3>
 
-    <form id="frm3" action="/projects/api/createProject" method="post">
+    <form id="frm3" action="/projects/api/addTask" method="post">
     
-            <label for="projectName">Project Name</label><br>
-            <input type="text" required id="projectName" name="projectName" placeholder="Enter Project Name"><br>
+            <label for="taskName">Task Name</label><br>
+            <input type="text" required id="taskName" name="taskName" placeholder="Enter Task Name"><br>
 
-            <label for="startDate">Start Date</label>
-            <input type="date" required id="startDate" name="startDate" min= "2022-09-01" max="2025-12-31" required><br>
+            <label for="employee">Assigned Employee</label><br>
+            <input type="employee" required id="employee" name="employee" placeholder="Enter Assigned Employee's employeeNumber"><br>
 
-            <label for="endDate">End Date:</label>            
-            <input type="date" required id="endDate" name="endDate" min= "2022-09-01" max="2030-12-31" required><br>
+            <label for="budget">Provided Budget</label><br>
+            <input type="budget" required id="budget" name="budget" placeholder="Enter Allocated Budget to Task (R0.00)"><br>
 
+            <label for="completionDate">Completion Date</label>
+            <input type="date" required id="completionDate" name="completionDate" min= "2022-09-01" max="2025-12-31" required><br>
            
             <label for="ProgressStatus">Progress Status:</label>
               <select id="ProgressStatus" name="ProgressStatus" size="1"><br><br>
@@ -39,7 +41,7 @@
             <label for="description">Description</label>
             <input type="text" required id="description" name="description" placeholder="Add Description"><br>
 
-            <input  type="submit" value="Create Project">
+            <input  type="submit" value="Create Task">
     </form>
 </div>
 </body><br>
