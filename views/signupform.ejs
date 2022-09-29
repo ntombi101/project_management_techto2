@@ -31,10 +31,20 @@
       <input type="text" id="lastName" required name="lastName" placeholder="Last Name"><br>
 
       <label for="surname">Department: </label><br>
-      <input type="text" id="department" required name="department" placeholder="Finance, IT.."><br>
+      <select id="department" name="department"><br><br>
+        <option value="Engineering">Engineering</option>
+        <option value="IT">Employee</option>
+        <option value="Finance">Finance</option>
+        <option value="HR">HR</option>
+        <option value="Data Science">Finance</option>
+      </select><br><br>
 
       <label for="surname">Occupation: </label><br>
-      <input type="text" id="occupation" required name="occupation" placeholder="project manager, employee.."><br>
+      <select id="occupation" name="occupation"><br><br>
+        <option value="Project Manager">PM</option>
+        <option value="Employee">Employee</option>
+      </select><br><br>
+
 
       <label for="name">Password: </label><br>
       <input type="password" id="pass" required name="password" placeholder="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
