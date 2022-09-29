@@ -55,7 +55,27 @@ router.get('/default', redirectLogIn, function (_req, res) {
 })
 
 router.get('/homepage', redirectLogIn, function (req, res) {
-  res.render('homepage', { errormessage: req.flash('errormessage') })
+  const employeeNumber_ID= req.cookies.employeeNumber
+
+  db.pools
+  // Run query
+  .then((pool) => {
+    return pool.request()
+      // perfoming a query
+      .query(`SELECT employees.occupation FROM employees WHERE employeeNumber = '${employeeNumber_ID}'`)
+  })
+  // Processing the response
+  .then(result => {
+    const employee_Occupation= result.recordset[0].occupation
+    console.log(`${employee_Occupation}`)
+    if(employee_Occupation === "Project Manager"){
+      console.log(`${employee_Occupation}`)
+      res.render('homepage', { errormessage: req.flash('errormessage') })
+    }else {
+      res.render('homepage_employee', { errormessage: req.flash('errormessage') })
+    }
+  })
+  
 })
 
 

@@ -48,7 +48,26 @@ const redirectLogIn = (req, res, next) => {
 
 //Render project home page Template
 router.get('/CreatedProject', redirectLogIn, function (_req, res) {
-  res.render('projectHomeTemplate', { errormessage: _req.flash('errormessage') })
+  const employeeNumber_ID= _req.cookies.employeeNumber
+
+  db.pools
+  // Run query
+  .then((pool) => {
+    return pool.request()
+      // perfoming a query
+      .query(`SELECT employees.occupation FROM employees WHERE employeeNumber = '${employeeNumber_ID}'`)
+  })
+  // Processing the response
+  .then(result => {
+    const employee_Occupation= result.recordset[0].occupation
+    console.log(`${employee_Occupation}`)
+    if(employee_Occupation === "Project Manager"){
+      console.log(`${employee_Occupation}`)
+      res.render('projectHomeTemplate', { errormessage: _req.flash('errormessage') })
+    }else {
+      res.render('projectHomeTemplate_employee', { errormessage: _req.flash('errormessage') })
+    }
+  })
 }) 
 
 // Create Project with error message for when project already exists.
@@ -89,7 +108,31 @@ router.get('/joinProject', redirectLogIn, function (req, res) {
 
 //Take to homepage
 router.get('/homepage', redirectLogIn, function (req, res) {
-  res.render('homepage', { errormessage: req.flash('errormessage') })
+  const employeeNumber_ID= req.cookies.employeeNumber
+  
+  db.pools
+  // Run query
+  .then((pool) => {
+    return pool.request()
+      // perfoming a query
+      .query(`SELECT employees.occupation FROM employees WHERE employeeNumber = '${employeeNumber_ID}'`)
+  })
+  // Processing the response
+  .then(result => {
+    const employee_Occupation= result.recordset[0].occupation
+    if(employee_Occupation === "Project Manager"){
+      console.log(`${employee_Occupation}`)
+      res.render('homepage', { errormessage: req.flash('errormessage') })
+    }else {
+      res.render('homepage_employee', { errormessage: req.flash('errormessage') })
+    }
+  })
+  // If there's an error, return that with some description
+  .catch(err => {
+    res.send({
+      Error: err
+    })
+  })
 })
 
 //View Tasks Dashboard
@@ -123,7 +166,7 @@ router.get('/api/projectlist', function (req, res) {
 })
 
 
-
+//Create a project
 router.post('/api/createProject', redirectLogIn, function (req, res) {
   const projectName = req.body.projectName
   const progressStatus = req.body.ProgressStatus
@@ -330,7 +373,7 @@ router.post('/api/searchProjects', redirectLogIn, function (req, res) {
     })
 })
 
-// Update Project Status
+//Join Project
 router.post('/api/joinProject', redirectLogIn, function (req, res) {
   const projectName = req.cookies.groupName
   const user = req.cookies.username
@@ -407,6 +450,7 @@ router.post('/api/joinProject', redirectLogIn, function (req, res) {
       }
 })
 
+// Update Project Status
 router.post('/api/updateProjectStatus', redirectLogIn, function (req, res) {
   const newProjectStatus = req.body.newProgressStatus
   const projectName= req.cookies.newGroupName
