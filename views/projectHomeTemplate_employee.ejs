@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Project Page</title>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel= "stylesheet" href="/cdn/css/style.css">
+	
+	<script defer src="/cdn/scripts/user/bundle_StudyGroupPage.js"></script>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Trirong">
+
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>    
+
+</head>
+
+<% if(errormessage && errormessage.length > 0) { %>
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+     <strong>Warning!</strong> <%=errormessage %> 
+     <button type="button" class="close" data-dismiss="alert">&times;</button>
+  </div>
+<% } %>
+
+<body style="background-image: url('/cdn/images/studyGroup.jpg');">
+	<div id="circ">
+		
+		<span id= "studyGroupWelcomeMessage1" contenteditable="false">  </span><br>
+		
+   </div>
+	
+
+	<div class="topnav2">
+		<a href='/user/homepage'>Home</a>
+	</div>
+
+	 
+	<div class="groupNavigation">
+      <button id="grpmen" class="grpmenu"> Menu </button>
+	   <div id="dropmen" class="groupInner">
+		<a class="item2" href="viewTasks">View Project Tasks</a>
+		<a class="item6" href="/user/members">List Members</a>
+		<a class="item9" href="/user/resources">Chat Room</a>
+	  </div>
+    </div> 
+	
+  
+	
+	
+		<p id= "groupAdminName"> </p>
+		<p id="dateCreated"> </p>
+
+</body>
+
+</html> 
