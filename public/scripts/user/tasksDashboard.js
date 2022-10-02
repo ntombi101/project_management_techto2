@@ -9,13 +9,13 @@ function show (data) {
 
   let tab = 
         `<tr>
-          <th>Task Name </th>
-          <th>Project Name </th>
-          <th>Assigned Employee </th>
-          <th>Task Status </th>
-          <th>Description </th>
-          <th>Allocated Budget </th>
-          <th>Task Completion Date </th>
+          <th>Task Name &nbsp &nbsp</th>
+          <th>Project Name &nbsp &nbsp</th>
+          <th>Assigned Employee &nbsp &nbsp</th>
+          <th>Task Status &nbsp &nbsp</th>
+          <th>Description &nbsp</th>
+          <th>Allocated Budget &nbsp &nbsp</th>
+          <th>Task Completion Date &nbsp &nbsp</th>
          </tr>`;
     
     // Loop to access all rows 
@@ -23,7 +23,7 @@ function show (data) {
       tab += `<tr> 
       <td>${element.taskName + '&nbsp &nbsp &nbsp &nbsp'} </td>
       <td>${element.projectName_ID +'&nbsp &nbsp &nbsp &nbsp'} </td>
-      <td>${ element.employeeNumber_ID + '&nbsp &nbsp &nbsp &nbsp'} </td> 
+      <td>${element.employeeNumber_ID + '&nbsp &nbsp &nbsp &nbsp'} </td> 
       <td>${element.progressStatus + '&nbsp &nbsp &nbsp &nbsp'} </td> 
       <td>${element.Description + '&nbsp &nbsp &nbsp &nbsp'}</td>
       <td>${element.providedBudget + '&nbsp &nbsp &nbsp &nbsp'}</td>

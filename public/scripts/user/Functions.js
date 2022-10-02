@@ -103,7 +103,7 @@ groupLogicFunctions.groupExistsInCreatedGroup = function (grouplist, projectName
 }
 
 groupLogicFunctions.taskExistsInTaskTable = function (grouplist, taskName) {
-  const studygroup = grouplist.filter(studygroup => studygroup.tasktName === taskName)
+  const studygroup = grouplist.filter(studygroup => studygroup.taskName === taskName)
   if (studygroup.length === 0) { return false } else return true
 }
 

@@ -492,6 +492,7 @@ router.post('/api/updateProjectStatus', redirectLogIn, function (req, res) {
 })
 
 router.post('/api/addTask', redirectLogIn, function (req, res) {
+  const today= new Date()
   const taskName = req.body.taskName
   const progressStatus = req.body.ProgressStatus
   const description = req.body.description
@@ -511,6 +512,9 @@ router.post('/api/addTask', redirectLogIn, function (req, res) {
       if (groups.groupLogic.taskExistsInTaskTable(result.recordset, taskName) === true) {
         req.flash('errormessage', 'This Task Already Exists! All tasks are required to be Unique. Consider adding a project name tag to task name to make it unique.')
         res.redirect(req.baseUrl + '/addTask')
+      } else if(Date.parse(completionDate) < Date.parse(today)){
+        req.flash('errormessage', 'Invalid Completion Date. Completion dates must be ahead or equal to the date of today.')
+        res.redirect(req.baseUrl + '/addTask')
       } else {
         // insert this task into task table
         db.pools
@@ -519,11 +523,6 @@ router.post('/api/addTask', redirectLogIn, function (req, res) {
               .query(`INSERT INTO tasks (taskName, projectName_ID, employeeNumber_ID,  progressStatus, Description, providedBudget, completionDate) 
                         VALUES('${taskName}', '${projectName}', '${employeeNumber_ID}', '${progressStatus}', '${description}', '${budget}', '${completionDate}' )`);
 
-          })
-          .catch(err => {
-            res.send({
-              Error: err
-            })
           })
 
           //Send email to assigned employee to alert them of new Task.
@@ -541,10 +540,11 @@ router.post('/api/addTask', redirectLogIn, function (req, res) {
                   res.send({
                     Error: err
                   })
-                }) 
+                })
+                
+                res.redirect(req.baseUrl + '/createdProject')     
       }
-    })
-    res.redirect(req.baseUrl + '/createdProject')          
+    })     
 })
 
 

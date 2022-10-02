@@ -176,20 +176,13 @@ mainRouter.post('/api/register', redirectHome, function (req, res) {
 
     .then(result => {
       const index = result.recordset.findIndex(function (elem) {
-        return elem.email === employeeObject.email
+        return elem.employeeNumber === employeeObject.employeeNumber
       })
       if (index >= 0) {
         req.flash('errormessage', 'Already registered')
         res.redirect(req.baseUrl + '/login')
-      }
-    })
-    .catch(err => {
-      res.send({
-        Error: err
-      })
-    })
-
-  // Hash Password before storing into database
+      } else {
+        // Hash Password before storing into database
   const salt = bcrypt.genSaltSync(10)
   const hash = bcrypt.hashSync(employeeObject.Password, salt)
   employeeObject.Password = hash
@@ -212,6 +205,15 @@ mainRouter.post('/api/register', redirectHome, function (req, res) {
         Error: err
       })
     })
+  }
+    })
+    .catch(err => {
+      res.send({
+        Error: err
+      })
+    })
+
+  
 })
 
 module.exports = mainRouter
