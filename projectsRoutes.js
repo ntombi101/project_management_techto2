@@ -216,6 +216,12 @@ router.post('/api/createProject', redirectLogIn, function (req, res) {
       if (groups.groupLogic.groupExistsInCreatedGroup(result.recordset, projectName) === true) {
         req.flash('errormessage', 'This Project Already Exists! All projects are required to be Unique. Please try searching the project.')
         res.redirect(req.baseUrl + '/createProject')
+      } else if(Date.parse(actual_startDate) < Date.parse(today)){
+        req.flash('errormessage', 'Invalid project start date. Start date must be ahead or equal to the date of today.')
+        res.redirect(req.baseUrl + '/createProject')
+      } else if(Date.parse(actual_endtDate) < Date.parse(actual_startDate)){
+        req.flash('errormessage', 'Invalid project end date. End date must be ahead of the start date.')
+        res.redirect(req.baseUrl + '/createProject')
       } else {
 
         // store the created project info into cookies:
