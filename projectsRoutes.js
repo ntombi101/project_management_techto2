@@ -174,6 +174,7 @@ router.post('/api/createProject', redirectLogIn, function (req, res) {
   const actual_endtDate= req.body.endDate
   const description = req.body.description
   const employeeNumber_ID = req.cookies.employeeNumber
+  const employee = req.cookies.employee
   const userName = req.cookies.user
 
   console.log(actual_startDate)
@@ -225,7 +226,8 @@ router.post('/api/createProject', redirectLogIn, function (req, res) {
       } else {
 
         // store the created project info into cookies:
-        res.cookie('admin', `${userName}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/projectHomeTemplate')
+        res.cookie('admin', `${employee}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/projectHomeTemplate')
+        res.cookie('employee', `${employee}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/projectHomeTemplate')
         res.cookie('newGroupName', `${projectName}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/projectHomeTemplate')
         res.cookie('dayGroupCreated', `${created_day}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/projectHomeTemplate')
         res.cookie('monthGroupCreated', `${created_month}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/projectHomeTemplate')
@@ -282,11 +284,12 @@ router.post('/api/enterProject', redirectLogIn, function (req, res) {
     .then(result => {
       if (groups.groupLogic.groupExistsInCreatedGroup(result.recordset, projectName) === true) {
         const userName = result.recordset[0].employeeNumber_ID
+        const employee = req.cookies.employee
         const day = String(result.recordset[0].dateCreated.getDate()).padStart(2, 0)
         const month = String(result.recordset[0].dateCreated.getMonth() + 1).padStart(2, 0)
         const year = result.recordset[0].dateCreated.getFullYear()
 
-        res.cookie('admin', `${userName}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/projectHomeTemplate')
+        res.cookie('admin', `${employee}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/projectHomeTemplate')
         res.cookie('newGroupName', `${projectName}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/projectHomeTemplate')
         res.cookie('dayGroupCreated', `${day}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/projectHomeTemplate')
         res.cookie('monthGroupCreated', `${month}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/projectHomeTemplate')
@@ -383,9 +386,10 @@ router.post('/api/searchProjects', redirectLogIn, function (req, res) {
 router.post('/api/joinProject', redirectLogIn, function (req, res) {
   const projectName = req.cookies.groupName
   const user = req.cookies.username
+  const employee = req.cookies.employee
   
     if (req.body.joinProjectAnswer === 'yes') {
-      console.log(`The following project Mananger ${user} wants to join project.`)
+      console.log(`The following project Mananger ${employee} wants to join project.`)
 
       // check if the user is not part of project already
       db.pools
@@ -410,7 +414,7 @@ router.post('/api/joinProject', redirectLogIn, function (req, res) {
                   const month = String(result.recordset[0].dateCreated.getMonth() + 1).padStart(2, 0)
                   const year = result.recordset[0].dateCreated.getFullYear()
 
-                  res.cookie('admin', `${userName}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/studygroupTemp')
+                  res.cookie('admin', `${employee}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/studygroupTemp')
                   res.cookie('newGroupName', `${projectName}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/studygroupTemp')
                   res.cookie('dayGroupCreated', `${day}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/studygroupTemp')
                   res.cookie('monthGroupCreated', `${month}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/studygroupTemp')
