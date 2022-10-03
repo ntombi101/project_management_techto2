@@ -82,9 +82,11 @@ mainRouter.post('/api/login', redirectHome, function (req, res) {
 
           // store the employee name as a cookie
           const userNameCookie_ = `${employee.employeeNumber}`
-          const userWelcomeMessage_ = `welcome ${employee.firstname}`
+          const userWelcomeMessage_ = `welcome ${employee.firstname}  ${employee.lastname}`
+          const user_name_surname= `${employee.lastname}`
           console.log(`new greeting msg:  ${userNameCookie_}`)
           res.cookie('username', `${userNameCookie_}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/homepage')
+          res.cookie('employee', `${user_name_surname}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/homepage')
           res.cookie('welcomemessage', `${userWelcomeMessage_}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/homepage')
           res.cookie('user', `${employee.employeeNumber}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/viewMeetings')
           res.cookie('employeeNumber', `${employee.employeeNumber}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/viewMeetings')
@@ -176,20 +178,13 @@ mainRouter.post('/api/register', redirectHome, function (req, res) {
 
     .then(result => {
       const index = result.recordset.findIndex(function (elem) {
-        return elem.email === employeeObject.email
+        return elem.employeeNumber === employeeObject.employeeNumber
       })
       if (index >= 0) {
         req.flash('errormessage', 'Already registered')
         res.redirect(req.baseUrl + '/login')
-      }
-    })
-    .catch(err => {
-      res.send({
-        Error: err
-      })
-    })
-
-  // Hash Password before storing into database
+      } else {
+        // Hash Password before storing into database
   const salt = bcrypt.genSaltSync(10)
   const hash = bcrypt.hashSync(employeeObject.Password, salt)
   employeeObject.Password = hash
@@ -212,6 +207,15 @@ mainRouter.post('/api/register', redirectHome, function (req, res) {
         Error: err
       })
     })
+  }
+    })
+    .catch(err => {
+      res.send({
+        Error: err
+      })
+    })
+
+  
 })
 
 module.exports = mainRouter

@@ -174,6 +174,7 @@ router.post('/api/createProject', redirectLogIn, function (req, res) {
   const actual_endtDate= req.body.endDate
   const description = req.body.description
   const employeeNumber_ID = req.cookies.employeeNumber
+  const employee = req.cookies.employee
   const userName = req.cookies.user
 
   console.log(actual_startDate)
@@ -216,10 +217,17 @@ router.post('/api/createProject', redirectLogIn, function (req, res) {
       if (groups.groupLogic.groupExistsInCreatedGroup(result.recordset, projectName) === true) {
         req.flash('errormessage', 'This Project Already Exists! All projects are required to be Unique. Please try searching the project.')
         res.redirect(req.baseUrl + '/createProject')
+      } else if(Date.parse(actual_startDate) < Date.parse(today)){
+        req.flash('errormessage', 'Invalid project start date. Start date must be ahead or equal to the date of today.')
+        res.redirect(req.baseUrl + '/createProject')
+      } else if(Date.parse(actual_endtDate) < Date.parse(actual_startDate)){
+        req.flash('errormessage', 'Invalid project end date. End date must be ahead of the start date.')
+        res.redirect(req.baseUrl + '/createProject')
       } else {
 
         // store the created project info into cookies:
-        res.cookie('admin', `${userName}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/projectHomeTemplate')
+        res.cookie('admin', `${employee}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/projectHomeTemplate')
+        res.cookie('employee', `${employee}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/projectHomeTemplate')
         res.cookie('newGroupName', `${projectName}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/projectHomeTemplate')
         res.cookie('dayGroupCreated', `${created_day}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/projectHomeTemplate')
         res.cookie('monthGroupCreated', `${created_month}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/projectHomeTemplate')
@@ -276,11 +284,12 @@ router.post('/api/enterProject', redirectLogIn, function (req, res) {
     .then(result => {
       if (groups.groupLogic.groupExistsInCreatedGroup(result.recordset, projectName) === true) {
         const userName = result.recordset[0].employeeNumber_ID
+        const employee = req.cookies.employee
         const day = String(result.recordset[0].dateCreated.getDate()).padStart(2, 0)
         const month = String(result.recordset[0].dateCreated.getMonth() + 1).padStart(2, 0)
         const year = result.recordset[0].dateCreated.getFullYear()
 
-        res.cookie('admin', `${userName}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/projectHomeTemplate')
+        res.cookie('admin', `${employee}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/projectHomeTemplate')
         res.cookie('newGroupName', `${projectName}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/projectHomeTemplate')
         res.cookie('dayGroupCreated', `${day}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/projectHomeTemplate')
         res.cookie('monthGroupCreated', `${month}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/projectHomeTemplate')
@@ -377,9 +386,10 @@ router.post('/api/searchProjects', redirectLogIn, function (req, res) {
 router.post('/api/joinProject', redirectLogIn, function (req, res) {
   const projectName = req.cookies.groupName
   const user = req.cookies.username
+  const employee = req.cookies.employee
   
     if (req.body.joinProjectAnswer === 'yes') {
-      console.log(`The following project Mananger ${user} wants to join project.`)
+      console.log(`The following project Mananger ${employee} wants to join project.`)
 
       // check if the user is not part of project already
       db.pools
@@ -404,7 +414,7 @@ router.post('/api/joinProject', redirectLogIn, function (req, res) {
                   const month = String(result.recordset[0].dateCreated.getMonth() + 1).padStart(2, 0)
                   const year = result.recordset[0].dateCreated.getFullYear()
 
-                  res.cookie('admin', `${userName}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/studygroupTemp')
+                  res.cookie('admin', `${employee}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/studygroupTemp')
                   res.cookie('newGroupName', `${projectName}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/studygroupTemp')
                   res.cookie('dayGroupCreated', `${day}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/studygroupTemp')
                   res.cookie('monthGroupCreated', `${month}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/studygroupTemp')
@@ -492,6 +502,7 @@ router.post('/api/updateProjectStatus', redirectLogIn, function (req, res) {
 })
 
 router.post('/api/addTask', redirectLogIn, function (req, res) {
+  const today= new Date()
   const taskName = req.body.taskName
   const progressStatus = req.body.ProgressStatus
   const description = req.body.description
@@ -511,6 +522,9 @@ router.post('/api/addTask', redirectLogIn, function (req, res) {
       if (groups.groupLogic.taskExistsInTaskTable(result.recordset, taskName) === true) {
         req.flash('errormessage', 'This Task Already Exists! All tasks are required to be Unique. Consider adding a project name tag to task name to make it unique.')
         res.redirect(req.baseUrl + '/addTask')
+      } else if(Date.parse(completionDate) < Date.parse(today)){
+        req.flash('errormessage', 'Invalid Completion Date. Completion dates must be ahead or equal to the date of today.')
+        res.redirect(req.baseUrl + '/addTask')
       } else {
         // insert this task into task table
         db.pools
@@ -519,11 +533,6 @@ router.post('/api/addTask', redirectLogIn, function (req, res) {
               .query(`INSERT INTO tasks (taskName, projectName_ID, employeeNumber_ID,  progressStatus, Description, providedBudget, completionDate) 
                         VALUES('${taskName}', '${projectName}', '${employeeNumber_ID}', '${progressStatus}', '${description}', '${budget}', '${completionDate}' )`);
 
-          })
-          .catch(err => {
-            res.send({
-              Error: err
-            })
           })
 
           //Send email to assigned employee to alert them of new Task.
@@ -541,10 +550,11 @@ router.post('/api/addTask', redirectLogIn, function (req, res) {
                   res.send({
                     Error: err
                   })
-                }) 
+                })
+                
+                res.redirect(req.baseUrl + '/createdProject')     
       }
-    })
-    res.redirect(req.baseUrl + '/createdProject')          
+    })     
 })
 
 
