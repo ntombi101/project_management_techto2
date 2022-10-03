@@ -61,7 +61,7 @@ router.get('/CreatedProject', redirectLogIn, function (_req, res) {
   .then(result => {
     const employee_Occupation= result.recordset[0].occupation
     console.log(`${employee_Occupation}`)
-    if(employee_Occupation === "Project Manager"){
+    if( (employee_Occupation === "Project Manager") || (employee_Occupation === "PM") ){
       console.log(`${employee_Occupation}`)
       res.render('projectHomeTemplate', { errormessage: _req.flash('errormessage') })
     }else {
@@ -120,7 +120,7 @@ router.get('/homepage', redirectLogIn, function (req, res) {
   // Processing the response
   .then(result => {
     const employee_Occupation= result.recordset[0].occupation
-    if(employee_Occupation === "Project Manager"){
+    if( (employee_Occupation === "Project Manager") || (employee_Occupation === "PM") ){
       console.log(`${employee_Occupation}`)
       res.render('homepage', { errormessage: req.flash('errormessage') })
     }else {
