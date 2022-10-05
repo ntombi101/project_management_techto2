@@ -127,7 +127,7 @@ router.get('/api/listProjects', function (req, res) {
     .then((pool) => {
       return pool.request()
         // perfoming a query
-        .query(`SELECT * FROM uniqueProjects WHERE employeeNumber_ID = '${sessions.getUser()}'`)
+        .query(`SELECT * FROM existingProject WHERE employeeNumber_ID = '${sessions.getUser()}'`)
     })
     // Processing the response
     .then(result => {
