@@ -82,7 +82,7 @@ mainRouter.post('/api/login', redirectHome, function (req, res) {
 
           // store the employee name as a cookie
           const userNameCookie_ = `${employee.employeeNumber}`
-          const userWelcomeMessage_ = `welcome ${employee.firstname}  ${employee.lastname}`
+          const userWelcomeMessage_ = `Welcome ${employee.firstname}  ${employee.lastname}`
           const user_name_surname= `${employee.lastname}`
           console.log(`new greeting msg:  ${userNameCookie_}`)
           res.cookie('username', `${userNameCookie_}`, { maxAge: 9000000000, httpOnly: false }, 'path= /user/homepage')
