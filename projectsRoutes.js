@@ -320,7 +320,8 @@ router.post('/api/joinByInvite', redirectLogIn, function (req, res) {
       }
     })
 
-        db.pools
+      //Begin inserting them- No need to search if project exists because we are inside it.
+       db.pools
           .then((pool) => {
             return pool.request()
               .query('SELECT * FROM existingProject')
@@ -328,34 +329,36 @@ router.post('/api/joinByInvite', redirectLogIn, function (req, res) {
           .then(result => {
           //if the invitee user is not part of the project in question, add them to the project
             if (!groups.groupLogic.userPartOfGroup(result.recordset, projectName, invitee)) {
+
               db.pools
-                .then((pool) => {
+              .then((pool) => {
+                return pool.request()
+                .query(`SELECT * FROM uniqueProjects WHERE projectName = '${projectName}'`)            
+              })
+              .then(result => {
+                const start_day = String(result.recordset[0].startDate.getDate()).padStart(2, 0)
+                const start_month = String(result.recordset[0].startDate.getMonth() + 1).padStart(2, 0)
+                const start_year = result.recordset[0].startDate.getFullYear()
+  
+                const end_day = String(result.recordset[0].endDate.getDate()).padStart(2, '0')
+                const end_month = String(result.recordset[0].endDate.getMonth()).padStart(2, '0')
+                const end_year = String(result.recordset[0].endDate.getFullYear())
+
+                const day = String(result.recordset[0].dateCreated.getDate()).padStart(2, '0')
+                const month = String(result.recordset[0].dateCreated.getMonth()).padStart(2, '0')
+                const year = String(result.recordset[0].dateCreated.getFullYear())
+  
                 db.pools
                 .then((pool) => {
                   return pool.request()
-                    .query(`SELECT * FROM uniqueProjects WHERE projectName = '${projectName}'`)
+                  .query(`INSERT INTO existingProject (projectName_ID, employeeNumber_ID, startDate, endDate, description, progress, dateCreated) VALUES ( '${projectName}', '${invitee}', '${start_year}-${start_month}-${start_day}', '${end_year}-${end_month}-${end_day}', '${result.recordset[0].description}', '${result.recordset[0].progress}', '${year}-${month}-${day}')`)
                 })
+  
                 .then(result => {
-                  if (groups.groupLogic.groupExistsInCreatedGroup(result.recordset, projectName) === true) {
-                    const userName = result.recordset[0].employeeNumber_ID
-                    const day = String(result.recordset[0].dateCreated.getDate()).padStart(2, 0)
-                    const month = String(result.recordset[0].dateCreated.getMonth() + 1).padStart(2, 0)
-                    const year = result.recordset[0].dateCreated.getFullYear()
-                  }
-                })
-                .catch(err => {
-                  res.send({
-                    Error: err
-                  })
-                })
-
-                  return pool.request()
-                  .query(`INSERT INTO existingProject (projectName_ID, employeeNumber_ID, startDate, endDate, description, progress, dateCreated) VALUES ( '${projectName}', '${user}', '${projectDetails.startDate}', '${projectDetails.endDate}', '${projectDetails.description}', '${projectDetails.progress}', '${projectDetails.dateCreated}')`)
-                })
-
-                .then(result => {
+                  // Take back to homepage after joining a group
                   res.redirect(req.baseUrl + '/CreatedProject')
                 })
+              })
 
               // make a query to notify added member via email that they part of a new group
               db.pools
@@ -377,6 +380,7 @@ router.post('/api/joinByInvite', redirectLogIn, function (req, res) {
               }
           })
 })
+
 
 // Search Project
 router.post('/api/searchProjects', redirectLogIn, function (req, res) {
