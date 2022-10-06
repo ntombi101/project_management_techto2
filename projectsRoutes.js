@@ -514,7 +514,7 @@ router.post('/api/updateProjectStatus', redirectLogIn, function (req, res) {
         db.pools
           .then((pool) => {
               return pool.request()
-                .query(`UPDATE uniqueProjects SET progress = '${newProjectStatus}'  WHERE projectName = '${projectName}'`)
+                .query(`UPDATE existingProject SET progress = '${newProjectStatus}'  WHERE projectName_ID = '${projectName}'`)
             })
 
           .catch(err => {
