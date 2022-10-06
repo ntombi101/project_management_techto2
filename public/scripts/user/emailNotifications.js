@@ -17,7 +17,7 @@ module.exports = {
     const mailOptions = {
       from: 'webappeie9@gmail.com',
       to: Email,
-      subject: 'Reset password study coordinator',
+      subject: 'Reset password Project Management System',
       text: 'We are within',
       html: `<center><h1>Greetings, ${Username},</h1><br/><br/><p>  
                   <h2>Please use the following Code <br/>
