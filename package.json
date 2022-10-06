@@ -1,7 +1,7 @@
 {
   "name": "app-source-code",
   "version": "1.0.0",
-  "description": "Name of Web Application: Study Group Coordinator\r Link: http://studycoordinator2.azurewebsites.net/",
+  "description": "Name of Web Application: Project Management System\r Link: https://techtoweb.azurewebsites.net",
   "main": "index.js",
   "dependencies": {
     "@asymmetrik/ngx-leaflet": "^8.1.0",
