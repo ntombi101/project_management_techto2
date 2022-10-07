@@ -6,7 +6,7 @@ const router = express.Router()
 const db = require('./database/db')
 const session = require('./public/scripts/user/sessions.js')
 const sessions = require('./public/scripts/user/sessions.js')
-const ArrivedSafeNotification = require('../2021-009-project/public/scripts/user/Functions.js')
+const ArrivedSafeNotification = require('./public/scripts/user/Functions.js')
 const send = require('./public/scripts/user/emailNotifications.js')
 const {getActiveGroup } = require('./public/scripts/user/sessions.js')
 
