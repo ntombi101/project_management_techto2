@@ -1,15 +1,10 @@
 # 2021-009-project
-Name of Web Application: Study Group Coordinator
-Link: http://studycoordinator2.azurewebsites.net/
+Name of Web Application: techto2
+Link: https://techtoweb.azurewebsites.net/
 
 Group Members:
-Thokozani Msezane 1033379
-Oratile Marope 1057107
-Florance Thobejane 1356300
-Nthabiseng Mapheelle 1604145
-Ammaarah Akhalwaya 1417743
+Charmaine Mahlase (219125359)
+Limbani Bongani Shaka (201800825)
+ Nollen Musika (220012023)
 
 Login Credentials Mssql
-
-username: eiegroup9sql
-password: CNSP@SS6843
