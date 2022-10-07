@@ -1,10 +1,18 @@
-# 2021-009-project
+# project_management_techto
+
 Name of Web Application: techto2
 Link: https://techtoweb.azurewebsites.net/
 
-Group Members:
-Charmaine Mahlase (219125359)
-Limbani Bongani Shaka (201800825)
- Nollen Musika (220012023)
+This repo contains the work and source code of a project management application. 
 
-Login Credentials Mssql
+Group Name: Techto2022
+
+Group Members: Charmaine Mahlase (219125359)
+Limbani Bongani Shaka (201800825)
+Nollen Musika (220012023)
+
+Website Link:
+
+
+This repo contains the work and source code of a project management application developed for BCX company.
+
