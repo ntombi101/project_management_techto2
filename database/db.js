@@ -3,11 +3,11 @@ const mssql = require('mssql')
 
 // Make sure this is private to this module
 const config = {
-  server: 'techtosql1.database.windows.net',
-  database: 'techto_database',
+  server: 'techtosqladmin3.database.windows.net',
+  database: 'techto3_database',
   // Put login details in env. variables for security
-  user: 'techtosqladmin1',
-  password: 'Ntombi101!',
+  user: 'techtosqladmin3',
+  password: 'Ntombi103!',
 
   port: 1433,
   // Required for Azure
