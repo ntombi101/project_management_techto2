@@ -100,13 +100,14 @@ router.get('/logout', redirectLogIn, function (req, res) {
 // use fetch to get the results into your js file.
 router.get('/api/list', function (req, res) {
   // Make a query to the database
+  const projectName= req.cookies.newGroupName
 
   db.pools
     // Run query
     .then((pool) => {
       return pool.request()
         // perfoming a query
-        .query(`SELECT * FROM existingProject WHERE projectName_ID = '${sessions.getActiveGroup()}'`)
+        .query(`SELECT * FROM existingProject WHERE projectName_ID = '${projectName}'`)
     })
     // Processing the response
     .then(result => {
@@ -122,13 +123,14 @@ router.get('/api/list', function (req, res) {
 
 router.get('/api/listProjects', function (req, res) {
   // Make a query to the database to fetch the unique table data. This is the data that will go into 
+  const employeeNumber_ID= req.cookies.employeeNumber
 
   db.pools
     // Run query
     .then((pool) => {
       return pool.request()
         // perfoming a query
-        .query(`SELECT * FROM existingProject WHERE employeeNumber_ID = '${sessions.getUser()}'`)
+        .query(`SELECT * FROM existingProject WHERE employeeNumber_ID = '${employeeNumber_ID}'`)
     })
     // Processing the response
     .then(result => {
