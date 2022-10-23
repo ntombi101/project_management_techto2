@@ -572,6 +572,7 @@ router.post('/api/addTask', redirectLogIn, function (req, res) {
 
           })
 
+          
           //Send email to assigned employee to alert them of new Task.
           db.pools
                 .then((pool) => {
