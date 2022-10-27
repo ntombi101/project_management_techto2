@@ -6,8 +6,8 @@ const config = {
   server: 'techtogroup.database.windows.net',
   database: 'project_manager_database',
   // Put login details in env. variables for security
-  user: 'techtoadmin',
-  password: 'Techto101!',
+  user: process.env.db_user,
+  password: process.env.db_pass,
 
   port: 1433,
   // Required for Azure
