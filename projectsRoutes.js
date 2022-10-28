@@ -570,7 +570,7 @@ router.post('/api/addTask', redirectLogIn, function (req, res) {
   db.pools
   .then((pool) => {
     return pool.request()
-      .query(`SELECT * FROM existingProject WHERE employeeNumber_ID = '${employeeNumber_ID}'`)
+      .query(`SELECT employeeNumber_ID FROM existingProject WHERE projectName_ID = '${projectName}'`)
   })
   .then(result => {
     if (groups.groupLogic.userPartOfExistingGroup(result.recordset, employeeNumber_ID) === true) {
