@@ -24,7 +24,7 @@ function show (data) {
       <td>${JSON.stringify(element.startDate).slice(1,11) +'&nbsp &nbsp &nbsp &nbsp'} </td>
       <td>${JSON.stringify(element.endDate).slice(1,11) + '&nbsp &nbsp &nbsp &nbsp'} </td> 
       <td>${element.description + '&nbsp &nbsp &nbsp &nbsp'} </td> 
-      <td>${element.progress + '&nbsp &nbsp &nbsp &nbsp'}</td>
+      <td>${element.progress + '&nbsp &nbsp &nbsp &nbsp nbsp'}</td>
       <td>${JSON.stringify(element.dateCreated).slice(1,11) + '&nbsp &nbsp &nbsp &nbsp'}</td>         
       </tr>`;
 
