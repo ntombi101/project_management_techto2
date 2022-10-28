@@ -570,56 +570,56 @@ router.post('/api/addTask', redirectLogIn, function (req, res) {
   db.pools
   .then((pool) => {
     return pool.request()
-      .query(`SELECT * FROM employees WHERE employeeNumber = '${employeeNumber_ID}'`)
+      .query(`SELECT * FROM existingProject WHERE employeeNumber_ID = '${employeeNumber_ID}'`)
   })
   .then(result => {
     if (groups.groupLogic.userPartOfExistingGroup(result.recordset, employeeNumber_ID) === true) {
 
-      // make a query to create the new project.
-  db.pools
-  .then((pool) => {
-    return pool.request()
-      .query('SELECT * FROM tasks')
-  })
-  .then(result => {
-    // Check if task already exists.
-    if (groups.groupLogic.taskExistsInTaskTable(result.recordset, taskName) === true) {
-      req.flash('errormessage', 'This Task Already Exists! All tasks are required to be Unique. Consider adding a project name tag to task name to make it unique.')
-      res.redirect(req.baseUrl + '/addTask')
-    } else if(Date.parse(completionDate) < Date.parse(today)){
-      req.flash('errormessage', 'Invalid Completion Date. Completion dates must be ahead or equal to the date of today.')
-      res.redirect(req.baseUrl + '/addTask')
-    } else {
-      // insert this task into task table
+          // make a query to create the new project.
       db.pools
-        .then((pool) => {
-          return pool.request()
-            .query(`INSERT INTO tasks (taskName, projectName_ID, employeeNumber_ID,  progressStatus, Description, providedBudget, completionDate) 
-                      VALUES('${taskName}', '${projectName}', '${employeeNumber_ID}', '${progressStatus}', '${description}', '${budget}', '${completionDate}' )`);
+      .then((pool) => {
+        return pool.request()
+          .query('SELECT * FROM tasks')
+      })
+      .then(result => {
+        // Check if task already exists.
+        if (groups.groupLogic.taskExistsInTaskTable(result.recordset, taskName) === true) {
+          req.flash('errormessage', 'This Task Already Exists! All tasks are required to be Unique. Consider adding a project name tag to task name to make it unique.')
+          res.redirect(req.baseUrl + '/addTask')
+        } else if(Date.parse(completionDate) < Date.parse(today)){
+          req.flash('errormessage', 'Invalid Completion Date. Completion dates must be ahead or equal to the date of today.')
+          res.redirect(req.baseUrl + '/addTask')
+        } else {
+          // insert this task into task table
+          db.pools
+            .then((pool) => {
+              return pool.request()
+                .query(`INSERT INTO tasks (taskName, projectName_ID, employeeNumber_ID,  progressStatus, Description, providedBudget, completionDate) 
+                          VALUES('${taskName}', '${projectName}', '${employeeNumber_ID}', '${progressStatus}', '${description}', '${budget}', '${completionDate}' )`);
 
-        })
+            })
 
-        
-        //Send email to assigned employee to alert them of new Task.
-        db.pools
-              .then((pool) => {
-                return pool.request()
-                  .query(`SELECT * FROM employees WHERE employeeNumber = '${employeeNumber_ID}' `)
-              })
-              .then(result => {
+            
+            //Send email to assigned employee to alert them of new Task.
+            db.pools
+                  .then((pool) => {
+                    return pool.request()
+                      .query(`SELECT * FROM employees WHERE employeeNumber = '${employeeNumber_ID}' `)
+                  })
+                  .then(result => {
 
-                  send.allocatedTask(result.recordset[0].email, result.recordset[0].firstName, projectName, taskName, completionDate) 
-              })
+                      send.allocatedTask(result.recordset[0].email, result.recordset[0].firstName, projectName, taskName, completionDate) 
+                  })
 
-              .catch(err => {
-                res.send({
-                  Error: err
-                })
-              })
-              
-              res.redirect(req.baseUrl + '/createdProject')     
-    }
-  })     
+                  .catch(err => {
+                    res.send({
+                      Error: err
+                    })
+                  })
+                  
+                  res.redirect(req.baseUrl + '/createdProject')     
+        }
+      })     
 
     }else{
       req.flash('errormessage', 'This Employee is not a member of the Project! Consider adding them before asssigning a task.')
