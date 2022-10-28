@@ -96,6 +96,12 @@ groupLogicFunctions.groupExistsInExistingGroup = function (grouplist, projectNam
   if (studygroup.length === 0) { return false } else return true
 }
 
+// check if the group user exists in employees table
+groupLogicFunctions.employeeExistsInDatabase = function (grouplist, employeeNumber) {
+  const name = grouplist.filter(name => name.employeeNumber === employeeNumber)
+  if (name.length === 0) { return false } else return true
+}
+
 // check if the group exists in createdGroup table
 groupLogicFunctions.groupExistsInCreatedGroup = function (grouplist, projectName) {
   const studygroup = grouplist.filter(studygroup => studygroup.projectName === projectName)

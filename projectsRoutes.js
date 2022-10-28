@@ -305,79 +305,97 @@ router.post('/api/joinByInvite', redirectLogIn, function (req, res) {
   const projectName = req.cookies.newGroupName
   const inviter = req.cookies.username
   const reason = `${inviter}`
-  console.log(`Adding member ${invitee} to project ${projectName} by ${inviter}`)
-  
-  //search emails of current employees and send email
-  db.pools
+
+    // make a query
+    db.pools
     .then((pool) => {
       return pool.request()
-        .query(`SELECT existingProject.employeeNumber_ID, employees.email FROM existingProject INNER JOIN employees ON existingProject.employeeNumber_ID = employees.employeeNumber WHERE projectName_ID = '${sessions.getActiveGroup()}'`)
+        .query(`SELECT * FROM employees WHERE employeeNumber = '${invitee}'`)
     })
     .then(result => {
-      for (let index = 0; index < result.recordset.length; index++) {
-        send.addMember(result.recordset[index].email, result.recordset[index].employeeNumber_ID, projectName, invitee)
-      }
-    })
+      if (groups.groupLogic.employeeExistsInDatabase(result.recordset, invitee) === true) {
 
-      //Begin inserting them- No need to search if project exists because we are inside it.
-       db.pools
-          .then((pool) => {
-            return pool.request()
-              .query('SELECT * FROM existingProject')
-          })
-          .then(result => {
-          //if the invitee user is not part of the project in question, add them to the project
-            if (!groups.groupLogic.userPartOfGroup(result.recordset, projectName, invitee)) {
-
-              db.pools
-              .then((pool) => {
-                return pool.request()
-                .query(`SELECT * FROM uniqueProjects WHERE projectName = '${projectName}'`)            
-              })
-              .then(result => {
-                const start_day = String(result.recordset[0].startDate.getDate()).padStart(2, 0)
-                const start_month = String(result.recordset[0].startDate.getMonth() + 1).padStart(2, 0)
-                const start_year = result.recordset[0].startDate.getFullYear()
+        console.log(`Adding member ${invitee} to project ${projectName} by ${inviter}`)
   
-                const end_day = String(result.recordset[0].endDate.getDate()).padStart(2, '0')
-                const end_month = String(result.recordset[0].endDate.getMonth()).padStart(2, '0')
-                const end_year = String(result.recordset[0].endDate.getFullYear())
+    //search emails of current employees and send email
+    db.pools
+      .then((pool) => {
+        return pool.request()
+          .query(`SELECT existingProject.employeeNumber_ID, employees.email FROM existingProject INNER JOIN employees ON existingProject.employeeNumber_ID = employees.employeeNumber WHERE projectName_ID = '${sessions.getActiveGroup()}'`)
+      })
+      .then(result => {
+        for (let index = 0; index < result.recordset.length; index++) {
+          send.addMember(result.recordset[index].email, result.recordset[index].employeeNumber_ID, projectName, invitee)
+        }
+      })
+        //Begin inserting them- No need to search if project exists because we are inside it.
+        db.pools
+            .then((pool) => {
+              return pool.request()
+                .query('SELECT * FROM existingProject')
+            })
+            .then(result => {
+            //if the invitee user is not part of the project in question, add them to the project
+              if (!groups.groupLogic.userPartOfGroup(result.recordset, projectName, invitee)) {
 
-                const day = String(result.recordset[0].dateCreated.getDate()).padStart(2, '0')
-                const month = String(result.recordset[0].dateCreated.getMonth()).padStart(2, '0')
-                const year = String(result.recordset[0].dateCreated.getFullYear())
-  
                 db.pools
                 .then((pool) => {
                   return pool.request()
-                  .query(`INSERT INTO existingProject (projectName_ID, employeeNumber_ID, startDate, endDate, description, progress, dateCreated) VALUES ( '${projectName}', '${invitee}', '${start_year}-${start_month}-${start_day}', '${end_year}-${end_month}-${end_day}', '${result.recordset[0].description}', '${result.recordset[0].progress}', '${year}-${month}-${day}')`)
+                  .query(`SELECT * FROM uniqueProjects WHERE projectName = '${projectName}'`)            
                 })
-  
                 .then(result => {
-                  // Take back to homepage after joining a group
-                  res.redirect(req.baseUrl + '/CreatedProject')
-                })
-              })
+                  const start_day = String(result.recordset[0].startDate.getDate()).padStart(2, 0)
+                  const start_month = String(result.recordset[0].startDate.getMonth() + 1).padStart(2, 0)
+                  const start_year = result.recordset[0].startDate.getFullYear()
+    
+                  const end_day = String(result.recordset[0].endDate.getDate()).padStart(2, '0')
+                  const end_month = String(result.recordset[0].endDate.getMonth()).padStart(2, '0')
+                  const end_year = String(result.recordset[0].endDate.getFullYear())
 
-              // make a query to notify added member via email that they part of a new group
-              db.pools
-                .then((pool) => {
-                  return pool.request()
-                    .query('SELECT * FROM employees')
-                })
-                .then(result => {
-                  const index = result.recordset.findIndex(function (elem) {
-                    return elem.employeeNumber === invitee
+                  const day = String(result.recordset[0].dateCreated.getDate()).padStart(2, '0')
+                  const month = String(result.recordset[0].dateCreated.getMonth()).padStart(2, '0')
+                  const year = String(result.recordset[0].dateCreated.getFullYear())
+    
+                  db.pools
+                  .then((pool) => {
+                    return pool.request()
+                    .query(`INSERT INTO existingProject (projectName_ID, employeeNumber_ID, startDate, endDate, description, progress, dateCreated) VALUES ( '${projectName}', '${invitee}', '${start_year}-${start_month}-${start_day}', '${end_year}-${end_month}-${end_day}', '${result.recordset[0].description}', '${result.recordset[0].progress}', '${year}-${month}-${day}')`)
                   })
-                  if (index >= 0) {
-                    send.invitedIntoGroup(result.recordset[index].email, result.recordset[index].employeeNumber, projectName, reason)
-                  }
+    
+                  .then(result => {
+                    // Take back to homepage after joining a group
+                    res.redirect(req.baseUrl + '/CreatedProject')
+                  })
                 })
-                // else if invitee is already part of project. Redirect to project homepage
-              } else {
-              res.redirect(req.baseUrl + '/CreatedProject')
-              }
-          })
+
+                // make a query to notify added member via email that they part of a new group
+                db.pools
+                  .then((pool) => {
+                    return pool.request()
+                      .query('SELECT * FROM employees')
+                  })
+                  .then(result => {
+                    const index = result.recordset.findIndex(function (elem) {
+                      return elem.employeeNumber === invitee
+                    })
+                    if (index >= 0) {
+                      send.invitedIntoGroup(result.recordset[index].email, result.recordset[index].employeeNumber, projectName, reason)
+                    }
+                  })
+                  // else if invitee is already part of project. Redirect to project homepage
+                } else {
+                res.redirect(req.baseUrl + '/CreatedProject')
+                }
+            })
+          
+
+      }else{
+        req.flash('errormessage', 'This Employee Does Not Exist In Employee Database! Please make sure they are signed up before adding them to Project')
+          res.redirect(req.baseUrl + '/joinByInvite')
+        }
+
+      })
+  
 })
 
 
@@ -548,51 +566,68 @@ router.post('/api/addTask', redirectLogIn, function (req, res) {
   const budget = req.body.budget
   const completionDate= req.body.completionDate
  
-  // make a query to create the new project.
+  // make a query
   db.pools
-    .then((pool) => {
-      return pool.request()
-        .query('SELECT * FROM tasks')
-    })
-    .then(result => {
-      // Check if task already exists.
-      if (groups.groupLogic.taskExistsInTaskTable(result.recordset, taskName) === true) {
-        req.flash('errormessage', 'This Task Already Exists! All tasks are required to be Unique. Consider adding a project name tag to task name to make it unique.')
-        res.redirect(req.baseUrl + '/addTask')
-      } else if(Date.parse(completionDate) < Date.parse(today)){
-        req.flash('errormessage', 'Invalid Completion Date. Completion dates must be ahead or equal to the date of today.')
-        res.redirect(req.baseUrl + '/addTask')
-      } else {
-        // insert this task into task table
+  .then((pool) => {
+    return pool.request()
+      .query(`SELECT * FROM employees WHERE employeeNumber = '${employeeNumber_ID}'`)
+  })
+  .then(result => {
+    if (groups.groupLogic.userPartOfExistingGroup(result.recordset, employeeNumber_ID) === true) {
+
+      // make a query to create the new project.
+  db.pools
+  .then((pool) => {
+    return pool.request()
+      .query('SELECT * FROM tasks')
+  })
+  .then(result => {
+    // Check if task already exists.
+    if (groups.groupLogic.taskExistsInTaskTable(result.recordset, taskName) === true) {
+      req.flash('errormessage', 'This Task Already Exists! All tasks are required to be Unique. Consider adding a project name tag to task name to make it unique.')
+      res.redirect(req.baseUrl + '/addTask')
+    } else if(Date.parse(completionDate) < Date.parse(today)){
+      req.flash('errormessage', 'Invalid Completion Date. Completion dates must be ahead or equal to the date of today.')
+      res.redirect(req.baseUrl + '/addTask')
+    } else {
+      // insert this task into task table
+      db.pools
+        .then((pool) => {
+          return pool.request()
+            .query(`INSERT INTO tasks (taskName, projectName_ID, employeeNumber_ID,  progressStatus, Description, providedBudget, completionDate) 
+                      VALUES('${taskName}', '${projectName}', '${employeeNumber_ID}', '${progressStatus}', '${description}', '${budget}', '${completionDate}' )`);
+
+        })
+
+        
+        //Send email to assigned employee to alert them of new Task.
         db.pools
-          .then((pool) => {
-            return pool.request()
-              .query(`INSERT INTO tasks (taskName, projectName_ID, employeeNumber_ID,  progressStatus, Description, providedBudget, completionDate) 
-                        VALUES('${taskName}', '${projectName}', '${employeeNumber_ID}', '${progressStatus}', '${description}', '${budget}', '${completionDate}' )`);
+              .then((pool) => {
+                return pool.request()
+                  .query(`SELECT * FROM employees WHERE employeeNumber = '${employeeNumber_ID}' `)
+              })
+              .then(result => {
 
-          })
+                  send.allocatedTask(result.recordset[0].email, result.recordset[0].firstName, projectName, taskName, completionDate) 
+              })
 
-          
-          //Send email to assigned employee to alert them of new Task.
-          db.pools
-                .then((pool) => {
-                  return pool.request()
-                    .query(`SELECT * FROM employees WHERE employeeNumber = '${employeeNumber_ID}' `)
+              .catch(err => {
+                res.send({
+                  Error: err
                 })
-                .then(result => {
+              })
+              
+              res.redirect(req.baseUrl + '/createdProject')     
+    }
+  })     
 
-                    send.allocatedTask(result.recordset[0].email, result.recordset[0].firstName, projectName, taskName, completionDate) 
-                })
+    }else{
+      req.flash('errormessage', 'This Employee is not a member of the Project! Consider adding them before asssigning a task.')
+        res.redirect(req.baseUrl + '/addTask')
+    }
 
-                .catch(err => {
-                  res.send({
-                    Error: err
-                  })
-                })
-                
-                res.redirect(req.baseUrl + '/createdProject')     
-      }
-    })     
+  })
+  
 })
 
 

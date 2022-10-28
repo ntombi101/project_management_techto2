@@ -19,12 +19,9 @@
 <div id="addrec">
     <h2> Search for Existing Projects Here</h2>
     <form id="frm4" action="/projects/api/searchProjects" method="post">
-        <label for="studyGroups">Search Existing Project</label>
-        <input list="searchingProject" name="searchingProject">
-        <datalist id="searchingProject">
-            <option
-            value="BCX">
-        </datalist>
+        <label for="studyGroups">Search Existing Project</label><br>
+        <input type="text" required id="searchingProject" name="searchingProject" placeholder="Enter Project Name"><br>
+
     <!--TODO: On click, send application and update apllication status feed-->
         <input  type="submit" value="submit">
     </form>
